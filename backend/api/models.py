@@ -1,20 +1,29 @@
+# api/models.py
 from django.db import models
-from django.contrib.auth.models import User
+from django.contrib.auth.models import AbstractUser, Group, Permission
 
+class User(AbstractUser):
+    ROLES = (
+        ('student', 'Student'),
+        ('educator', 'Educator'),
+    )
+    role = models.CharField(max_length=10, choices=ROLES, default='student')
+    
+    # REQUIRED FIELDS
+    groups = models.ManyToManyField(
+        Group,
+        verbose_name='groups',
+        blank=True,
+        related_name="api_user_groups",
+        related_query_name="user",
+    )
+    user_permissions = models.ManyToManyField(
+        Permission,
+        verbose_name='user permissions',
+        blank=True,
+        related_name="api_user_permissions",
+        related_query_name="user",
+    )
 
-# Create your models here.
-
-# models.py
-from django.db import models
-from django.contrib.auth.models import User
-
-class Educator(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
-
-class Student(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
-    enrolled_classes = models.ManyToManyField('Class')
-
-class Class(models.Model):
-    name = models.CharField(max_length=100)
-    created_by = models.ForeignKey(Educator, on_delete=models.CASCADE)
+    def __str__(self):
+        return self.username

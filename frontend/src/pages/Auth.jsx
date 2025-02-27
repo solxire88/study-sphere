@@ -1,9 +1,10 @@
 "use client"
-
 import { useState } from "react"
 import { useNavigate } from "react-router-dom"
 import axios from "axios"
 import { GraduationCap, Users } from "lucide-react"
+import { ACCESS_TOKEN, REFRESH_TOKEN } from "../constants"
+import {jwtDecode} from "jwt-decode"
 
 export default function AuthPage() {
   const [isLogin, setIsLogin] = useState(true)
@@ -11,24 +12,28 @@ export default function AuthPage() {
   const [username, setUsername] = useState("")
   const [password, setPassword] = useState("")
   const [email, setEmail] = useState("")
+  const [errorMessage, setErrorMessage] = useState("")
   const navigate = useNavigate()
 
-  // Keep the same handleSubmit logic as before
   const handleSubmit = async (e) => {
     e.preventDefault()
+    // Reset error message on each submit
+    setErrorMessage("")
     try {
       if (isLogin) {
-        // Login logic (unchanged)
+        // Login logic
         const response = await axios.post("http://localhost:8000/api/token/", {
           username,
           password,
         })
-        localStorage.setItem("token", response.data.access)
-        localStorage.setItem("refresh", response.data.refresh)
-        const userRole = response.data.role
+        localStorage.setItem(ACCESS_TOKEN, response.data.access)
+        localStorage.setItem(REFRESH_TOKEN, response.data.refresh)
+        const decoded = jwtDecode(response.data.access)
+        const userRole = decoded.role
+        console.log(userRole)
         navigate(userRole === "student" ? "/student" : "/educator")
       } else {
-        // Register logic (unchanged)
+        // Register logic
         await axios.post("http://localhost:8000/api/user/register/", {
           username,
           password,
@@ -39,7 +44,11 @@ export default function AuthPage() {
       }
     } catch (error) {
       console.error("Auth error:", error)
-      // Handle error (e.g., show error message to user)
+      if (error.response && error.response.status === 401) {
+        setErrorMessage("Invalid credentials")
+      } else {
+        setErrorMessage("An error occurred. Please try again.")
+      }
     }
   }
 
@@ -60,6 +69,9 @@ export default function AuthPage() {
             <p className="text-gray-500">
               {isLogin ? "Sign in to continue" : "Start your learning journey"}
             </p>
+            {errorMessage && (
+              <div className="text-red-600">{errorMessage}</div>
+            )}
           </div>
 
           <form onSubmit={handleSubmit} className="space-y-6">
