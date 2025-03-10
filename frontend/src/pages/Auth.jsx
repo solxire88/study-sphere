@@ -1,93 +1,107 @@
-"use client" 
+"use client";
 
-import { useState } from "react" 
-import { useNavigate } from "react-router-dom" 
-import axios from "axios" 
-import { GraduationCap, Users } from "lucide-react" 
-import { ACCESS_TOKEN, REFRESH_TOKEN } from "../constants" 
-import { jwtDecode } from "jwt-decode" 
-import { Input } from "@heroui/input" 
-import { Button } from "@heroui/button" 
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import axios from "axios";
+import { GraduationCap, Users } from "lucide-react";
+import { ACCESS_TOKEN, REFRESH_TOKEN } from "../constants";
+import { jwtDecode } from "jwt-decode";
+import { Input } from "@heroui/input";
+import { Button } from "@heroui/button";
+import Logo from "../assets/logo.png";
+// import "../styles/auth.css";
 
 export default function AuthPage() {
-  
-  const [isLogin, setIsLogin] = useState(true) 
-  const [role, setRole] = useState("student") 
-  const [username, setUsername] = useState("") 
-  const [password, setPassword] = useState("") 
-  const [email, setEmail] = useState("") 
-  const [errorMessage, setErrorMessage] = useState("") 
-  const navigate = useNavigate() 
+  const [isLogin, setIsLogin] = useState(true);
+  const [role, setRole] = useState("student");
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+  const [email, setEmail] = useState("");
+  const [errorMessage, setErrorMessage] = useState("");
+  const navigate = useNavigate();
 
-  
   const handleSubmit = async (e) => {
-    e.preventDefault() 
-    setErrorMessage("") 
+    e.preventDefault();
+    setErrorMessage("");
 
     try {
       if (isLogin) {
-      
         const response = await axios.post("http://localhost:8000/api/token/", {
           username,
           password,
-        })
-        
-        localStorage.setItem(ACCESS_TOKEN, response.data.access)
-        localStorage.setItem(REFRESH_TOKEN, response.data.refresh)
-      
-        const decoded = jwtDecode(response.data.access)
-        const userRole = decoded.role
-        console.log(userRole)
-        
-        navigate(userRole === "student" ? "/student" : "/educator")
+        });
+
+        localStorage.setItem(ACCESS_TOKEN, response.data.access);
+        localStorage.setItem(REFRESH_TOKEN, response.data.refresh);
+
+        const decoded = jwtDecode(response.data.access);
+        const userRole = decoded.role;
+        console.log(userRole);
+
+        navigate(userRole === "student" ? "/student" : "/educator");
       } else {
-        
         await axios.post("http://localhost:8000/api/user/register/", {
           username,
           password,
           email,
           role,
-        })
-        
-        setIsLogin(true)
+        });
+
+        setIsLogin(true);
       }
     } catch (error) {
-      console.error("Auth error:", error) 
-      
+      console.error("Auth error:", error);
+
       if (error.response && error.response.status === 401) {
-        setErrorMessage("Invalid credentials") 
+        setErrorMessage("Invalid credentials");
       } else {
-        setErrorMessage("An error occurred. Please try again.") 
+        setErrorMessage("An error occurred. Please try again.");
       }
     }
-  }
+  };
 
   return (
     <div className="flex w-screen h-screen bg-[#000B18] relative overflow-hidden">
       {/*  gradient circle background (responsive) */}
-      <div className="hidden lg:absolute lg:inset-0 lg:flex lg:items-center lg:justify-center lg:z-0">
-        <div className="w-[48rem] h-[48rem] bg-gradient-to-tr from-blue-900 to-#05014a rounded-full animate-spin blur-xl opacity-50" />
+      <div className="absolute inset-0 flex items-center justify-center z-0">
+        <div
+          className="
+    w-[clamp(32rem,50vmin,48rem)] 
+    h-[clamp(32rem,50vmin,48rem)]
+    bg-gradient-to-tr 
+    from-blue-900 
+    to-[#05014a]
+    rounded-full 
+    animate-spin 
+    blur-[30px]
+    md:blur-xl
+    opacity-50
+    transition-all
+    duration-300
+  "
+        />
       </div>
 
-      
       <div className="w-full flex items-center justify-center z-10 p-4">
         {/*Blurred card  */}
-        <div className="w-full max-w-md backdrop-blur-sm bg-white/5 border border-white rounded-2xl overflow-hidden relative 
+        <div
+          className="w-full max-w-md backdrop-blur-sm bg-white/5 border border-white rounded-2xl overflow-hidden relative 
                        shadow-[0_0_25px_rgba(255,255,255,0.3),0_20px_30px_-10px_rgba(0,0,0,0.6),0_-2px_10px_rgba(255,255,255,0.1)_inset]
                        animate-[float_6s_ease-in-out_infinite] hover:shadow-[0_0_20px_rgba(255,255,255,0.4),0_25px_35px_-5px_rgba(0,0,0,0.7),0_-2px_15px_rgba(255,255,255,0.15)_inset]
-                       transition-shadow duration-500 max-lg:border-[#004493]">
+                       transition-shadow duration-500 max-lg:border-[#004493]"
+        >
           <div className="p-6 space-y-4">
-          
             <div className="text-center space-y-2">
-          
               <div>
-                <img src="/whitelogostudy 1.svg" alt="Company Logo" className="w-64 mx-auto" />
+                <img src={Logo} alt="Company Logo" className="w-64 mx-auto" />
               </div>
-            
+
               <p className="text-white/80 text-sm">
-                {isLogin ? "Sign in to continue" : "Start your learning journey"}
+                {isLogin
+                  ? "Sign in to continue"
+                  : "Start your learning journey"}
               </p>
-            
+
               {errorMessage && (
                 <div className="text-red-400 text-sm shadow-sm">
                   {errorMessage}
@@ -117,9 +131,14 @@ export default function AuthPage() {
                         variant="underlined"
                         className="white-text"
                         classNames={{
-                          inputWrapper: ["border-white", "max-lg:border-[#004493]", 
-                            "group-data-[focus=true]:border-[#004493]", "transition-colors", 
-                            "duration-3000", username.length > 0 ? "!border-[#004493]" : ""],
+                          inputWrapper: [
+                            "border-white",
+                            "max-lg:border-[#004493]",
+                            "group-data-[focus=true]:border-[#004493]",
+                            "transition-colors",
+                            "duration-3000",
+                            username.length > 0 ? "!border-[#004493]" : "",
+                          ],
                           label: "text-lg",
                         }}
                       />
@@ -135,9 +154,14 @@ export default function AuthPage() {
                         variant="underlined"
                         className="white-text"
                         classNames={{
-                          inputWrapper: ["border-white", "max-lg:border-[#004493]", 
-                            "group-data-[focus=true]:border-[#004493]", "transition-colors", 
-                            "duration-3000", password.length > 0 ? "!border-[#004493]" : ""],
+                          inputWrapper: [
+                            "border-white",
+                            "max-lg:border-[#004493]",
+                            "group-data-[focus=true]:border-[#004493]",
+                            "transition-colors",
+                            "duration-3000",
+                            password.length > 0 ? "!border-[#004493]" : "",
+                          ],
                           label: "text-lg",
                         }}
                       />
@@ -183,9 +207,14 @@ export default function AuthPage() {
                         variant="underlined"
                         className="white-text"
                         classNames={{
-                          inputWrapper: ["border-white", "max-lg:border-[#004493]", 
-                            "group-data-[focus=true]:border-[#004493]", "transition-colors", 
-                            "duration-3000", username.length > 0 ? "!border-[#004493]" : ""],
+                          inputWrapper: [
+                            "border-white",
+                            "max-lg:border-[#004493]",
+                            "group-data-[focus=true]:border-[#004493]",
+                            "transition-colors",
+                            "duration-3000",
+                            username.length > 0 ? "!border-[#004493]" : "",
+                          ],
                           label: "text-lg",
                         }}
                       />
@@ -201,9 +230,14 @@ export default function AuthPage() {
                         variant="underlined"
                         className="white-text"
                         classNames={{
-                          inputWrapper: ["border-white", "max-lg:border-[#004493]", 
-                            "group-data-[focus=true]:border-[#004493]", "transition-colors", 
-                            "duration-3000", email.length > 0 ? "!border-[#004493]" : ""],
+                          inputWrapper: [
+                            "border-white",
+                            "max-lg:border-[#004493]",
+                            "group-data-[focus=true]:border-[#004493]",
+                            "transition-colors",
+                            "duration-3000",
+                            email.length > 0 ? "!border-[#004493]" : "",
+                          ],
                           label: "text-lg",
                         }}
                       />
@@ -219,9 +253,14 @@ export default function AuthPage() {
                         variant="underlined"
                         className="white-text"
                         classNames={{
-                          inputWrapper: ["border-white", "max-lg:border-[#004493]", 
-                            "group-data-[focus=true]:border-[#004493]", "transition-colors", 
-                            "duration-3000", password.length > 0 ? "!border-[#004493]" : ""],
+                          inputWrapper: [
+                            "border-white",
+                            "max-lg:border-[#004493]",
+                            "group-data-[focus=true]:border-[#004493]",
+                            "transition-colors",
+                            "duration-3000",
+                            password.length > 0 ? "!border-[#004493]" : "",
+                          ],
                           label: "text-lg",
                         }}
                       />
@@ -292,12 +331,14 @@ export default function AuthPage() {
                           after:content-[''] after:absolute after:w-0 after:h-px after:bg-white/60 after:bottom-0 after:left-1/2 
                           after:transition-all hover:after:w-full hover:after:left-0"
               >
-                {isLogin ? "Need an account? Sign Up" : "Already have an account? Sign In"}
+                {isLogin
+                  ? "Need an account? Sign Up"
+                  : "Already have an account? Sign In"}
               </button>
             </div>
           </div>
         </div>
       </div>
     </div>
-  )
+  );
 }

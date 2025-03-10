@@ -6,12 +6,12 @@ const NotFound = () => {
   const navigate = useNavigate();
 
   return (
-    <div className="heroui-container flex flex-col items-center justify-center min-h-screen">
+    <div className="heroui-container text-secondary flex flex-col items-center justify-center min-h-screen">
       <h1 className="heroui-heading text-4xl font-bold mb-4">404 - Page Not Found</h1>
-      <p className="heroui-text text-lg mb-6">
+      <p className=" heroui-text text-lg mb-6">
         The page you are looking for does not exist.
       </p>
-      <Button variant="primary" onClick={() => navigate('/')}>
+      <Button variant="bordered" className='text-secondary' onPress={() => navigate('/')}>
         Go Home
       </Button>
     </div>
