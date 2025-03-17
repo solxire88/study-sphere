@@ -1,14 +1,27 @@
 from rest_framework import serializers
 from .models import Class, EnrollmentRequest
-from api.models import User
 
 class ClassSerializer(serializers.ModelSerializer):
     author = serializers.StringRelatedField(read_only=True)
-    
+    tags = serializers.ListField(
+        child=serializers.CharField(),
+        allow_empty=True,
+        required=False
+    )
+    # Show enrolled students
+    enrolled_students = serializers.SlugRelatedField(
+        many=True,
+        read_only=True,
+        slug_field='username'
+    )
+
     class Meta:
         model = Class
-        fields = '__all__'
-        read_only_fields = ('author',)
+        fields = [
+            'id', 'title', 'author', 'tags', 'schedule',
+            'description', 'syllabus', 'enrolled_students'
+        ]
+        read_only_fields = ('author', 'enrolled_students')
 
 class EnrollmentRequestSerializer(serializers.ModelSerializer):
     student = serializers.StringRelatedField(read_only=True)
@@ -16,10 +29,10 @@ class EnrollmentRequestSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = EnrollmentRequest
-        fields = '__all__'
-        read_only_fields = ('student', 'status', 'created_at')
+        fields = ['id', 'student', 'class_obj', 'status']
+        read_only_fields = ('student', 'status')
 
 class EnrollmentStatusUpdateSerializer(serializers.ModelSerializer):
     class Meta:
         model = EnrollmentRequest
-        fields = ('status',)
+        fields = ['status']

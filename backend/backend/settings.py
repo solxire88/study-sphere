@@ -54,6 +54,8 @@ SIMPLE_JWT = {
 # Application definition
 
 INSTALLED_APPS = [
+    'channels',
+    'channels_redis',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -62,10 +64,23 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'api',
     'classes',
+    'docs',
+    'chat',
     'corsheaders',
     'rest_framework',
 ]
 AUTH_USER_MODEL = 'api.User'
+
+ASGI_APPLICATION = 'backend.asgi.application'
+
+CHANNEL_LAYERS = {
+    'default': {
+        'BACKEND': 'channels_redis.core.RedisChannelLayer',
+        'CONFIG': {
+            'hosts': [('127.0.0.1', 6379)],
+        },
+    }
+}
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -109,6 +124,18 @@ DATABASES = {
         'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
+
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.postgresql',
+#         'NAME': 'defaultdb',
+#         'USER': 'avnadmin',
+#         'PASSWORD': 'AVNS_sQedoJq9arOU3R_pr0j',
+#         'HOST': 'pg-837f542-projet-prpa.e.aivencloud.com',
+#         'PORT': 18324,
+#     }
+# }
+
 
 
 # Password validation
@@ -154,3 +181,6 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 CORS_ALLOW_ALL_ORIGINS = True
 CORS_ALLOW_CREDENTIALS = True
+
+  # This will change how file URLs appear
+MEDIA_ROOT = os.path.join(BASE_DIR, "media")  # Where files are stored
