@@ -12,6 +12,6 @@ class UserAdmin(BaseUserAdmin):
         (None, {'fields': ('role',)}),
     )
     # Optionally, display 'role' in the list view
-    list_display = ('username', 'email', 'role', 'is_staff')
+    list_display = ('id', 'username', 'email', 'role', 'is_staff')
 
 admin.site.register(User, UserAdmin)

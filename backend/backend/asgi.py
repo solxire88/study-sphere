@@ -16,18 +16,18 @@ django.setup()
 from django.core.asgi import get_asgi_application
 from channels.auth import AuthMiddlewareStack
 from channels.routing import ProtocolTypeRouter, URLRouter
-from channels.sessions import SessionMiddlewareStack
 import chat.routing
+import chatbot.routing
 from chat.middleware import JwtAuthMiddleware
 
+# Combine the URL patterns from both apps:
+combined_websocket_urlpatterns = chat.routing.websocket_urlpatterns + chatbot.routing.websocket_urlpatterns
 
 application = ProtocolTypeRouter({
     "http": get_asgi_application(),
     "websocket": JwtAuthMiddleware(  # our JWT middleware wraps the connection
          AuthMiddlewareStack(
-             URLRouter(
-                 chat.routing.websocket_urlpatterns
-             )
+             URLRouter(combined_websocket_urlpatterns)
          )
     ),
 })

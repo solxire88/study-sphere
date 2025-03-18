@@ -93,8 +93,12 @@ class ChatConsumer(AsyncWebsocketConsumer):
 
     @database_sync_to_async
     def get_chat_history(self, class_id):
-        # Return the last 50 messages in chronological order.
-        return list(ChatMessage.objects.filter(class_obj_id=class_id).order_by("timestamp")[:50])
+        # Return the last 50 messages in chronological order with sender pre-fetched.
+        return list(
+            ChatMessage.objects.filter(class_obj_id=class_id)
+            .select_related("sender")
+            .order_by("timestamp")[:50]
+        )
 
     @database_sync_to_async
     def check_membership(self, user, class_id):

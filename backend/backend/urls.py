@@ -14,5 +14,7 @@ urlpatterns = [
     path('class/', include('classes.urls'), name="classes"),
     path('docs/', include('docs.urls'), name="docs"),
     path('documents/<str:filename>/', DocumentDownloadView.as_view(), name='document-download'),
+    path('stats/', include('stats.urls')),
+    path('tests/', include('tests.urls')),
 
 ]

@@ -66,6 +66,9 @@ INSTALLED_APPS = [
     'classes',
     'docs',
     'chat',
+    'stats',
+    'tests',
+    'chatbot',
     'corsheaders',
     'rest_framework',
 ]
