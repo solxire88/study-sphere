@@ -1,0 +1,178 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    background-color: #04091c; /* Apply the background color globally */
+    color: white; /* Set default text color to white for better readability */
+  }
+}
+
+.white-text input {
+  color: white !important;
+  font-size: 1.2rem !important; /* Equivalent to text-lg */
+}
+
+/* Hover effect (preserve Hero UI's default hover animation) */
+.search-input-wrapper:hover {
+  transform: scale(1.02); /* Slight zoom-in effect on hover */
+}
+
+/* Ensure the input text and placeholder remain visible */
+.search-input-wrapper input {
+  background-color: transparent !important; /* Make input background transparent */
+  color: inherit; /* Inherit text color */
+}
+
+/* Search icon styles */
+.search-input-wrapper .text-gray-500 {
+  color: #6b7280; /* Default gray color, adjust as needed */
+  transition: transform 0.3s ease; /* Smooth transition for icon animation */
+}
+
+/* Icon animation on hover */
+.search-input-wrapper:hover .text-gray-500 {
+  animation: spin 0.5s ease-in-out;
+  color: white;
+  /* Apply spin animation on hover */
+}
+
+/* Spin animation keyframes */
+@keyframes spin {
+  0% {
+    transform: rotate(0deg); /* Start at 0 degrees */
+  }
+  100% {
+    transform: rotate(360deg); /* Rotate 360 degrees */
+  }
+}
+
+/* Enhanced zoom effect for buttons */
+.zoom-button {
+  transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out, background-color 0.3s ease-in-out;
+}
+
+.zoom-button:hover {
+  transform: scale(1.1); /* Slightly reduced scaling */
+  box-shadow: 0 4px 8px rgba(0, 68, 147, 0.3); /* Reduced glow effect */
+  background-color: #002366; /* Darker background on hover */
+  border-color: #001a4d !important; /* Darker border color on hover */
+}
+
+/* Ensure button container has proper scrolling on small screens */
+.button-container {
+  scrollbar-width: thin;
+  scrollbar-color: #004493 transparent;
+}
+
+.button-container::-webkit-scrollbar {
+  height: 4px;
+}
+
+.button-container::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.button-container::-webkit-scrollbar-thumb {
+  background-color: #004493;
+  border-radius: 20px;
+}
+
+/* Add responsive container classes if not already in your Tailwind setup */
+@media (max-width: 640px) {
+  .course-grid {
+    grid-template-columns: repeat(1, minmax(0, 1fr));
+  }
+}
+
+@media (min-width: 641px) and (max-width: 1024px) {
+  .course-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (min-width: 1025px) {
+  .course-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+/* Make sure buttons wrap properly */
+@media (max-width: 640px) {
+  .zoom-button {
+    flex: 0 0 auto;
+    font-size: 0.8rem;
+    min-width: 80px;
+  }
+}
+
+/* Add specific height for course cards at different breakpoints */
+@media (max-width: 640px) {
+  .course-grid > div {
+    margin-bottom: 1.5rem;
+  }
+}
+
+/* Add more spacing between sections on smaller screens */
+@media (max-width: 768px) {
+  .course-list-container {
+    margin-top: 2rem;
+  }
+}
+
+@keyframes fadeInScale {
+  0% {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.modal-animation {
+  animation: fadeInScale 0.3s ease-out forwards;
+}
+
+/* Add this to your global CSS file */
+@keyframes fadeInBounce {
+  0% {
+    opacity: 0;
+    transform: scale(0.7); /* Start smaller for a more dramatic effect */
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.15); /* Overshoot for a pronounced bounce */
+  }
+  70% {
+    transform: scale(0.95); /* Slight recoil */
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1); /* Final state */
+  }
+}
+
+.fade-in-bounce {
+  animation: fadeInBounce 0.6s ease-out forwards; /* Slightly longer duration */
+}
+
+/* Transparent scrollbar */
+.scrollbar-transparent::-webkit-scrollbar {
+  width: 8px; /* Adjust scrollbar width */
+}
+
+.scrollbar-transparent::-webkit-scrollbar-track {
+  background: transparent; /* Transparent track */
+}
+
+.scrollbar-transparent::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.3); /* Semi-transparent thumb */
+  border-radius: 4px; /* Rounded corners */
+}
+
+.scrollbar-transparent::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.5); /* Slightly less transparent on hover */
+}
