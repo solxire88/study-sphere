@@ -1,0 +1,586 @@
+{
+      "tests": [
+        {
+          "courseId": 1,
+          "tests": [
+            {
+              "id": 1,
+              "title": "Introduction to ML & Data Science",
+              "questions": [
+                {
+                  "question": "What is supervised learning?",
+                  "choices": [
+                    "Learning without labels",
+                    "Learning with labeled data",
+                    "Learning with reinforcement",
+                    "Learning with clustering"
+                  ],
+                  "correctAnswer": 1
+                },
+                {
+                  "question": "What is a neural network?",
+                  "choices": [
+                    "A type of database",
+                    "A computational model inspired by the brain",
+                    "A type of algorithm",
+                    "A type of hardware"
+                  ],
+                  "correctAnswer": 1
+                },
+                {
+                  "question": "What is overfitting?",
+                  "choices": [
+                    "A model that performs well on training data but poorly on unseen data",
+                    "A model that performs poorly on training data",
+                    "A model that generalizes well",
+                    "A model that is too simple"
+                  ],
+                  "correctAnswer": 0
+                },
+                {
+                  "question": "What is a decision tree?",
+                  "choices": [
+                    "A flowchart-like structure for decision-making",
+                    "A type of neural network",
+                    "A clustering algorithm",
+                    "A regression model"
+                  ],
+                  "correctAnswer": 0
+                }
+              ]
+            },
+            {
+              "id": 2,
+              "title": "Advanced ML Concepts",
+              "questions": [
+                {
+                  "question": "What is backpropagation?",
+                  "choices": [
+                    "A method for training neural networks",
+                    "A method for data visualization",
+                    "A method for data preprocessing",
+                    "A method for clustering"
+                  ],
+                  "correctAnswer": 0
+                },
+                {
+                  "question": "What is an activation function?",
+                  "choices": [
+                    "A function that introduces non-linearity",
+                    "A function that normalizes data",
+                    "A function that optimizes data",
+                    "A function that clusters data"
+                  ],
+                  "correctAnswer": 0
+                },
+                {
+                  "question": "What is a convolutional neural network (CNN)?",
+                  "choices": [
+                    "A neural network used for image processing",
+                    "A neural network used for text processing",
+                    "A neural network used for audio processing",
+                    "A neural network used for regression"
+                  ],
+                  "correctAnswer": 0
+                },
+                {
+                  "question": "What is a GAN?",
+                  "choices": [
+                    "A generative adversarial network",
+                    "A type of clustering algorithm",
+                    "A type of regression model",
+                    "A type of decision tree"
+                  ],
+                  "correctAnswer": 0
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "courseId": 2,
+          "tests": [
+            {
+              "id": 3,
+              "title": "Introduction to Engineering",
+              "questions": [
+                {
+                  "question": "What is Ohm's Law?",
+                  "choices": [
+                    "V = IR",
+                    "P = IV",
+                    "F = ma",
+                    "E = mc²"
+                  ],
+                  "correctAnswer": 0
+                },
+                {
+                  "question": "What is a resistor?",
+                  "choices": [
+                    "A component that resists the flow of current",
+                    "A component that stores charge",
+                    "A component that amplifies signals",
+                    "A component that generates power"
+                  ],
+                  "correctAnswer": 0
+                },
+                {
+                  "question": "What is Kirchhoff's Voltage Law?",
+                  "choices": [
+                    "The sum of voltages around a closed loop is zero",
+                    "The sum of currents at a junction is zero",
+                    "The power in a circuit is constant",
+                    "The energy in a circuit is constant"
+                  ],
+                  "correctAnswer": 0
+                },
+                {
+                  "question": "What is a capacitor?",
+                  "choices": [
+                    "A component that stores electrical energy",
+                    "A component that resists current",
+                    "A component that amplifies signals",
+                    "A component that generates power"
+                  ],
+                  "correctAnswer": 0
+                }
+              ]
+            },
+            {
+              "id": 4,
+              "title": "Advanced Engineering Concepts",
+              "questions": [
+                {
+                  "question": "What is a transistor?",
+                  "choices": [
+                    "A component that amplifies or switches electronic signals",
+                    "A component that stores charge",
+                    "A component that resists the flow of current",
+                    "A component that generates power"
+                  ],
+                  "correctAnswer": 0
+                },
+                {
+                  "question": "What is the purpose of a diode?",
+                  "choices": [
+                    "To allow current to flow in one direction",
+                    "To amplify signals",
+                    "To store charge",
+                    "To resist current"
+                  ],
+                  "correctAnswer": 0
+                },
+                {
+                  "question": "What is a microcontroller?",
+                  "choices": [
+                    "A small computer on a single integrated circuit",
+                    "A type of resistor",
+                    "A type of capacitor",
+                    "A type of transistor"
+                  ],
+                  "correctAnswer": 0
+                },
+                {
+                  "question": "What is a relay?",
+                  "choices": [
+                    "An electrically operated switch",
+                    "A type of capacitor",
+                    "A type of resistor",
+                    "A type of diode"
+                  ],
+                  "correctAnswer": 0
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "courseId": 3,
+          "tests": [
+            {
+              "id": 5,
+              "title": "Introduction to Cybersecurity",
+              "questions": [
+                {
+                  "question": "What is a firewall?",
+                  "choices": [
+                    "A network security system",
+                    "A type of virus",
+                    "A type of encryption",
+                    "A type of malware"
+                  ],
+                  "correctAnswer": 0
+                },
+                {
+                  "question": "What is phishing?",
+                  "choices": [
+                    "A type of cyber attack",
+                    "A type of encryption",
+                    "A type of firewall",
+                    "A type of malware"
+                  ],
+                  "correctAnswer": 0
+                },
+                {
+                  "question": "What is encryption?",
+                  "choices": [
+                    "The process of encoding data",
+                    "The process of decoding data",
+                    "The process of deleting data",
+                    "The process of copying data"
+                  ],
+                  "correctAnswer": 0
+                },
+                {
+                  "question": "What is a VPN?",
+                  "choices": [
+                    "A virtual private network",
+                    "A type of malware",
+                    "A type of firewall",
+                    "A type of encryption"
+                  ],
+                  "correctAnswer": 0
+                }
+              ]
+            },
+            {
+              "id": 6,
+              "title": "Advanced Cybersecurity Concepts",
+              "questions": [
+                {
+                  "question": "What is a zero-day exploit?",
+                  "choices": [
+                    "A vulnerability exploited before it is patched",
+                    "A type of firewall",
+                    "A type of encryption",
+                    "A type of malware"
+                  ],
+                  "correctAnswer": 0
+                },
+                {
+                  "question": "What is multi-factor authentication?",
+                  "choices": [
+                    "A security method requiring multiple forms of verification",
+                    "A type of encryption",
+                    "A type of firewall",
+                    "A type of malware"
+                  ],
+                  "correctAnswer": 0
+                },
+                {
+                  "question": "What is a DDoS attack?",
+                  "choices": [
+                    "A distributed denial-of-service attack",
+                    "A type of encryption",
+                    "A type of firewall",
+                    "A type of malware"
+                  ],
+                  "correctAnswer": 0
+                },
+                {
+                  "question": "What is a honeypot?",
+                  "choices": [
+                    "A trap set to detect cyber attacks",
+                    "A type of encryption",
+                    "A type of firewall",
+                    "A type of malware"
+                  ],
+                  "correctAnswer": 0
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "courseId": 4,
+          "tests": [
+            {
+              "id": 7,
+              "title": "Introduction to Maths",
+              "questions": [
+                {
+                  "question": "What is a vector?",
+                  "choices": [
+                    "A quantity with both magnitude and direction",
+                    "A quantity with only magnitude",
+                    "A quantity with only direction",
+                    "A type of matrix"
+                  ],
+                  "correctAnswer": 0
+                },
+                {
+                  "question": "What is a matrix?",
+                  "choices": [
+                    "A rectangular array of numbers",
+                    "A single number",
+                    "A type of function",
+                    "A type of vector"
+                  ],
+                  "correctAnswer": 0
+                },
+                {
+                  "question": "What is the dot product of two vectors?",
+                  "choices": [
+                    "A scalar value",
+                    "A vector",
+                    "A matrix",
+                    "A function"
+                  ],
+                  "correctAnswer": 0
+                },
+                {
+                  "question": "What is a determinant?",
+                  "choices": [
+                    "A scalar value of a matrix",
+                    "A type of vector",
+                    "A type of function",
+                    "A type of matrix"
+                  ],
+                  "correctAnswer": 0
+                }
+              ]
+            },
+            {
+              "id": 8,
+              "title": "Advanced Maths Concepts",
+              "questions": [
+                {
+                  "question": "What is a derivative?",
+                  "choices": [
+                    "The rate of change of a function",
+                    "The area under a curve",
+                    "The slope of a line",
+                    "The integral of a function"
+                  ],
+                  "correctAnswer": 0
+                },
+                {
+                  "question": "What is an integral?",
+                  "choices": [
+                    "The area under a curve",
+                    "The rate of change of a function",
+                    "The slope of a line",
+                    "The derivative of a function"
+                  ],
+                  "correctAnswer": 0
+                },
+                {
+                  "question": "What is the chain rule?",
+                  "choices": [
+                    "A rule for differentiating composite functions",
+                    "A rule for integrating functions",
+                    "A rule for finding limits",
+                    "A rule for solving equations"
+                  ],
+                  "correctAnswer": 0
+                },
+                {
+                  "question": "What is a partial derivative?",
+                  "choices": [
+                    "A derivative of a function with multiple variables",
+                    "A type of integral",
+                    "A type of matrix",
+                    "A type of vector"
+                  ],
+                  "correctAnswer": 0
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "courseId": 5,
+          "tests": [
+            {
+              "id": 9,
+              "title": "Introduction to Low-Level Programming",
+              "questions": [
+                {
+                  "question": "What is assembly language?",
+                  "choices": [
+                    "A low-level programming language",
+                    "A high-level programming language",
+                    "A scripting language",
+                    "A markup language"
+                  ],
+                  "correctAnswer": 0
+                },
+                {
+                  "question": "What is a register?",
+                  "choices": [
+                    "A small storage location in the CPU",
+                    "A type of memory",
+                    "A type of variable",
+                    "A type of function"
+                  ],
+                  "correctAnswer": 0
+                },
+                {
+                  "question": "What is a pointer?",
+                  "choices": [
+                    "A variable that stores a memory address",
+                    "A type of function",
+                    "A type of loop",
+                    "A type of array"
+                  ],
+                  "correctAnswer": 0
+                },
+                {
+                  "question": "What is a stack?",
+                  "choices": [
+                    "A data structure that follows LIFO",
+                    "A type of queue",
+                    "A type of array",
+                    "A type of function"
+                  ],
+                  "correctAnswer": 0
+                }
+              ]
+            },
+            {
+              "id": 10,
+              "title": "Advanced Low-Level Programming",
+              "questions": [
+                {
+                  "question": "What is a heap?",
+                  "choices": [
+                    "A region of memory for dynamic allocation",
+                    "A type of stack",
+                    "A type of array",
+                    "A type of function"
+                  ],
+                  "correctAnswer": 0
+                },
+                {
+                  "question": "What is a memory leak?",
+                  "choices": [
+                    "Unreleased memory that is no longer needed",
+                    "A type of stack overflow",
+                    "A type of array",
+                    "A type of function"
+                  ],
+                  "correctAnswer": 0
+                },
+                {
+                  "question": "What is an interrupt?",
+                  "choices": [
+                    "A signal to the processor to stop current execution",
+                    "A type of loop",
+                    "A type of array",
+                    "A type of function"
+                  ],
+                  "correctAnswer": 0
+                },
+                {
+                  "question": "What is a kernel?",
+                  "choices": [
+                    "The core of an operating system",
+                    "A type of stack",
+                    "A type of array",
+                    "A type of function"
+                  ],
+                  "correctAnswer": 0
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "courseId": 6,
+          "tests": [
+            {
+              "id": 11,
+              "title": "Introduction to Web Development",
+              "questions": [
+                {
+                  "question": "What is HTML?",
+                  "choices": [
+                    "A markup language for creating web pages",
+                    "A programming language",
+                    "A database language",
+                    "A scripting language"
+                  ],
+                  "correctAnswer": 0
+                },
+                {
+                  "question": "What is CSS?",
+                  "choices": [
+                    "A stylesheet language for styling web pages",
+                    "A programming language",
+                    "A database language",
+                    "A scripting language"
+                  ],
+                  "correctAnswer": 0
+                },
+                {
+                  "question": "What is JavaScript?",
+                  "choices": [
+                    "A scripting language for web development",
+                    "A markup language",
+                    "A database language",
+                    "A stylesheet language"
+                  ],
+                  "correctAnswer": 0
+                },
+                {
+                  "question": "What is a DOM?",
+                  "choices": [
+                    "A programming interface for web documents",
+                    "A type of database",
+                    "A type of markup language",
+                    "A type of stylesheet"
+                  ],
+                  "correctAnswer": 0
+                }
+              ]
+            },
+            {
+              "id": 12,
+              "title": "Advanced Web Development",
+              "questions": [
+                {
+                  "question": "What is React?",
+                  "choices": [
+                    "A JavaScript library for building user interfaces",
+                    "A database language",
+                    "A markup language",
+                    "A stylesheet language"
+                  ],
+                  "correctAnswer": 0
+                },
+                {
+                  "question": "What is a REST API?",
+                  "choices": [
+                    "An architectural style for web services",
+                    "A type of database",
+                    "A type of markup language",
+                    "A type of stylesheet"
+                  ],
+                  "correctAnswer": 0
+                },
+                {
+                  "question": "What is a single-page application (SPA)?",
+                  "choices": [
+                    "A web application that loads a single HTML page",
+                    "A type of database",
+                    "A type of markup language",
+                    "A type of stylesheet"
+                  ],
+                  "correctAnswer": 0
+                },
+                {
+                  "question": "What is Node.js?",
+                  "choices": [
+                    "A runtime environment for executing JavaScript on the server",
+                    "A type of database",
+                    "A type of markup language",
+                    "A type of stylesheet"
+                  ],
+                  "correctAnswer": 0
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }

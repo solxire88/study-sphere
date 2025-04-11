@@ -1,0 +1,576 @@
+{
+      "tests": [
+        {
+          "courseId": 1,
+          "tests": [
+            {
+              "id": 1,
+              "title": "Introduction to ML & Data Science",
+              "questions": [
+                {
+                  "question": "What is supervised learning?",
+                  "choices": [
+                    "Learning without labels",
+                    "Learning with labeled data",
+                    "Learning with reinforcement",
+                    "Learning with unsupervised data"
+                  ],
+                  "correctAnswer": 1
+                },
+                {
+                  "question": "What is a neural network?",
+                  "choices": [
+                    "A type of database",
+                    "A computational model inspired by the brain",
+                    "A type of algorithm",
+                    "A type of visualization tool"
+                  ],
+                  "correctAnswer": 1
+                },
+                {
+                  "question": "What is overfitting?",
+                  "choices": [
+                    "When a model performs well on training data but poorly on test data",
+                    "When a model is too simple",
+                    "When a model is too slow",
+                    "When a model is too accurate"
+                  ],
+                  "correctAnswer": 0
+                },
+                {
+                  "question": "What is the purpose of a loss function?",
+                  "choices": [
+                    "To measure the performance of a model",
+                    "To optimize the model",
+                    "To visualize data",
+                    "To preprocess data"
+                  ],
+                  "correctAnswer": 0
+                }
+              ]
+            },
+            {
+              "id": 2,
+              "title": "Data Preprocessing and Analysis",
+              "questions": [
+                {
+                  "question": "What is data wrangling?",
+                  "choices": [
+                    "The process of cleaning and transforming raw data",
+                    "The process of visualizing data",
+                    "The process of analyzing data",
+                    "The process of collecting data"
+                  ],
+                  "correctAnswer": 0
+                },
+                {
+                  "question": "What is a DataFrame?",
+                  "choices": [
+                    "A 2D data structure in pandas",
+                    "A type of chart",
+                    "A type of database",
+                    "A type of algorithm"
+                  ],
+                  "correctAnswer": 0
+                },
+                {
+                  "question": "What is the purpose of the `groupby` function?",
+                  "choices": [
+                    "To group data based on a column",
+                    "To sort data",
+                    "To filter data",
+                    "To visualize data"
+                  ],
+                  "correctAnswer": 0
+                },
+                {
+                  "question": "What is a missing value?",
+                  "choices": [
+                    "A value that is not present in the dataset",
+                    "A value that is zero",
+                    "A value that is incorrect",
+                    "A value that is duplicated"
+                  ],
+                  "correctAnswer": 0
+                }
+              ]
+            },
+            {
+              "id": 3,
+              "title": "Machine Learning Algorithms",
+              "questions": [
+                {
+                  "question": "What is a decision tree?",
+                  "choices": [
+                    "A tree-like model for decision-making",
+                    "A type of neural network",
+                    "A type of clustering algorithm",
+                    "A type of regression model"
+                  ],
+                  "correctAnswer": 0
+                },
+                {
+                  "question": "What is a random forest?",
+                  "choices": [
+                    "An ensemble of decision trees",
+                    "A type of neural network",
+                    "A type of clustering algorithm",
+                    "A type of regression model"
+                  ],
+                  "correctAnswer": 0
+                },
+                {
+                  "question": "What is k-means clustering?",
+                  "choices": [
+                    "A clustering algorithm",
+                    "A type of neural network",
+                    "A type of regression model",
+                    "A type of decision tree"
+                  ],
+                  "correctAnswer": 0
+                },
+                {
+                  "question": "What is logistic regression?",
+                  "choices": [
+                    "A classification algorithm",
+                    "A type of neural network",
+                    "A type of clustering algorithm",
+                    "A type of decision tree"
+                  ],
+                  "correctAnswer": 0
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "courseId": 2,
+          "tests": [
+            {
+              "id": 4,
+              "title": "Engineering Fundamentals",
+              "questions": [
+                {
+                  "question": "What is a force?",
+                  "choices": [
+                    "A push or pull on an object",
+                    "A type of energy",
+                    "A type of material",
+                    "A type of measurement"
+                  ],
+                  "correctAnswer": 0
+                },
+                {
+                  "question": "What is torque?",
+                  "choices": [
+                    "A rotational force",
+                    "A type of energy",
+                    "A type of material",
+                    "A type of measurement"
+                  ],
+                  "correctAnswer": 0
+                },
+                {
+                  "question": "What is stress in engineering?",
+                  "choices": [
+                    "Force per unit area",
+                    "A type of energy",
+                    "A type of material",
+                    "A type of measurement"
+                  ],
+                  "correctAnswer": 0
+                },
+                {
+                  "question": "What is strain?",
+                  "choices": [
+                    "Deformation of a material",
+                    "A type of energy",
+                    "A type of force",
+                    "A type of measurement"
+                  ],
+                  "correctAnswer": 0
+                }
+              ]
+            },
+            {
+              "id": 5,
+              "title": "Systems Design",
+              "questions": [
+                {
+                  "question": "What is systems engineering?",
+                  "choices": [
+                    "Designing and managing complex systems",
+                    "A type of energy",
+                    "A type of material",
+                    "A type of measurement"
+                  ],
+                  "correctAnswer": 0
+                },
+                {
+                  "question": "What is a requirement in systems design?",
+                  "choices": [
+                    "A condition or capability needed by a system",
+                    "A type of energy",
+                    "A type of material",
+                    "A type of measurement"
+                  ],
+                  "correctAnswer": 0
+                },
+                {
+                  "question": "What is a system architecture?",
+                  "choices": [
+                    "The structure of a system",
+                    "A type of energy",
+                    "A type of material",
+                    "A type of measurement"
+                  ],
+                  "correctAnswer": 0
+                },
+                {
+                  "question": "What is a trade-off in systems design?",
+                  "choices": [
+                    "Balancing competing requirements",
+                    "A type of energy",
+                    "A type of material",
+                    "A type of measurement"
+                  ],
+                  "correctAnswer": 0
+                }
+              ]
+            },
+            {
+              "id": 6,
+              "title": "Advanced Engineering Concepts",
+              "questions": [
+                {
+                  "question": "What is finite element analysis?",
+                  "choices": [
+                    "A numerical method for solving engineering problems",
+                    "A type of energy",
+                    "A type of material",
+                    "A type of measurement"
+                  ],
+                  "correctAnswer": 0
+                },
+                {
+                  "question": "What is computational fluid dynamics?",
+                  "choices": [
+                    "Simulating fluid flow using computers",
+                    "A type of energy",
+                    "A type of material",
+                    "A type of measurement"
+                  ],
+                  "correctAnswer": 0
+                },
+                {
+                  "question": "What is a control system?",
+                  "choices": [
+                    "A system that manages the behavior of other systems",
+                    "A type of energy",
+                    "A type of material",
+                    "A type of measurement"
+                  ],
+                  "correctAnswer": 0
+                },
+                {
+                  "question": "What is a feedback loop?",
+                  "choices": [
+                    "A system where outputs influence inputs",
+                    "A type of energy",
+                    "A type of material",
+                    "A type of measurement"
+                  ],
+                  "correctAnswer": 0
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "courseId": 3,
+          "tests": [
+            {
+              "id": 7,
+              "title": "Introduction to Cybersecurity",
+              "questions": [
+                {
+                  "question": "What is a firewall?",
+                  "choices": [
+                    "A network security system",
+                    "A type of virus",
+                    "A type of encryption",
+                    "A type of hardware"
+                  ],
+                  "correctAnswer": 0
+                },
+                {
+                  "question": "What is encryption?",
+                  "choices": [
+                    "Converting data into a secure format",
+                    "A type of virus",
+                    "A type of firewall",
+                    "A type of hardware"
+                  ],
+                  "correctAnswer": 0
+                },
+                {
+                  "question": "What is a vulnerability?",
+                  "choices": [
+                    "A weakness in a system",
+                    "A type of virus",
+                    "A type of firewall",
+                    "A type of hardware"
+                  ],
+                  "correctAnswer": 0
+                },
+                {
+                  "question": "What is phishing?",
+                  "choices": [
+                    "A type of cyber attack",
+                    "A type of virus",
+                    "A type of firewall",
+                    "A type of hardware"
+                  ],
+                  "correctAnswer": 0
+                }
+              ]
+            },
+            {
+              "id": 8,
+              "title": "Network Security",
+              "questions": [
+                {
+                  "question": "What is a VPN?",
+                  "choices": [
+                    "A secure connection over the internet",
+                    "A type of virus",
+                    "A type of firewall",
+                    "A type of hardware"
+                  ],
+                  "correctAnswer": 0
+                },
+                {
+                  "question": "What is a DDoS attack?",
+                  "choices": [
+                    "Overloading a network with traffic",
+                    "A type of virus",
+                    "A type of firewall",
+                    "A type of hardware"
+                  ],
+                  "correctAnswer": 0
+                },
+                {
+                  "question": "What is an IDS?",
+                  "choices": [
+                    "A system that detects intrusions",
+                    "A type of virus",
+                    "A type of firewall",
+                    "A type of hardware"
+                  ],
+                  "correctAnswer": 0
+                },
+                {
+                  "question": "What is a zero-day exploit?",
+                  "choices": [
+                    "An attack on a previously unknown vulnerability",
+                    "A type of virus",
+                    "A type of firewall",
+                    "A type of hardware"
+                  ],
+                  "correctAnswer": 0
+                }
+              ]
+            },
+            {
+              "id": 9,
+              "title": "Ethical Hacking",
+              "questions": [
+                {
+                  "question": "What is penetration testing?",
+                  "choices": [
+                    "Simulating attacks to test security",
+                    "A type of virus",
+                    "A type of firewall",
+                    "A type of hardware"
+                  ],
+                  "correctAnswer": 0
+                },
+                {
+                  "question": "What is a white-hat hacker?",
+                  "choices": [
+                    "An ethical hacker",
+                    "A type of virus",
+                    "A type of firewall",
+                    "A type of hardware"
+                  ],
+                  "correctAnswer": 0
+                },
+                {
+                  "question": "What is social engineering?",
+                  "choices": [
+                    "Manipulating people to gain access",
+                    "A type of virus",
+                    "A type of firewall",
+                    "A type of hardware"
+                  ],
+                  "correctAnswer": 0
+                },
+                {
+                  "question": "What is a brute-force attack?",
+                  "choices": [
+                    "Trying all possible combinations to crack a password",
+                    "A type of virus",
+                    "A type of firewall",
+                    "A type of hardware"
+                  ],
+                  "correctAnswer": 0
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "courseId": 4,
+          "tests": [
+            {
+              "id": 10,
+              "title": "Introduction to Low-Level Programming",
+              "questions": [
+                {
+                  "question": "What is assembly language?",
+                  "choices": [
+                    "A low-level programming language",
+                    "A high-level programming language",
+                    "A scripting language",
+                    "A markup language"
+                  ],
+                  "correctAnswer": 0
+                },
+                {
+                  "question": "What is a register?",
+                  "choices": [
+                    "A small storage location in the CPU",
+                    "A type of memory",
+                    "A type of variable",
+                    "A type of function"
+                  ],
+                  "correctAnswer": 0
+                },
+                {
+                  "question": "What is a pointer?",
+                  "choices": [
+                    "A variable that stores a memory address",
+                    "A type of memory",
+                    "A type of variable",
+                    "A type of function"
+                  ],
+                  "correctAnswer": 0
+                },
+                {
+                  "question": "What is a stack?",
+                  "choices": [
+                    "A data structure that follows LIFO",
+                    "A type of memory",
+                    "A type of variable",
+                    "A type of function"
+                  ],
+                  "correctAnswer": 0
+                }
+              ]
+            },
+            {
+              "id": 11,
+              "title": "Memory Management",
+              "questions": [
+                {
+                  "question": "What is dynamic memory allocation?",
+                  "choices": [
+                    "Allocating memory at runtime",
+                    "Allocating memory at compile time",
+                    "A type of variable",
+                    "A type of function"
+                  ],
+                  "correctAnswer": 0
+                },
+                {
+                  "question": "What is a memory leak?",
+                  "choices": [
+                    "Unreleased memory that is no longer needed",
+                    "A type of variable",
+                    "A type of function",
+                    "A type of memory"
+                  ],
+                  "correctAnswer": 0
+                },
+                {
+                  "question": "What is garbage collection?",
+                  "choices": [
+                    "Automatic memory management",
+                    "A type of variable",
+                    "A type of function",
+                    "A type of memory"
+                  ],
+                  "correctAnswer": 0
+                },
+                {
+                  "question": "What is virtual memory?",
+                  "choices": [
+                    "An abstraction of physical memory",
+                    "A type of variable",
+                    "A type of function",
+                    "A type of memory"
+                  ],
+                  "correctAnswer": 0
+                }
+              ]
+            },
+            {
+              "id": 12,
+              "title": "Assembly Language",
+              "questions": [
+                {
+                  "question": "What is an opcode?",
+                  "choices": [
+                    "A code that specifies an operation",
+                    "A type of variable",
+                    "A type of function",
+                    "A type of memory"
+                  ],
+                  "correctAnswer": 0
+                },
+                {
+                  "question": "What is an operand?",
+                  "choices": [
+                    "Data on which an operation is performed",
+                    "A type of variable",
+                    "A type of function",
+                    "A type of memory"
+                  ],
+                  "correctAnswer": 0
+                },
+                {
+                  "question": "What is a CPU instruction?",
+                  "choices": [
+                    "A command executed by the CPU",
+                    "A type of variable",
+                    "A type of function",
+                    "A type of memory"
+                  ],
+                  "correctAnswer": 0
+                },
+                {
+                  "question": "What is a machine cycle?",
+                  "choices": [
+                    "The steps a CPU performs to execute an instruction",
+                    "A type of variable",
+                    "A type of function",
+                    "A type of memory"
+                  ],
+                  "correctAnswer": 0
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
