@@ -22,3 +22,12 @@ class TestListView(generics.ListAPIView):
         if class_id:
             return Test.objects.filter(class_obj_id=class_id)
         return Test.objects.none()
+
+# Delete a test. Only the educator that created the test may delete it.
+class TestDeleteView(generics.DestroyAPIView):
+    serializer_class = TestSerializer
+    permission_classes = [permissions.IsAuthenticated]
+
+    def get_queryset(self):
+        # This returns only tests created by the current user.
+        return Test.objects.filter(created_by=self.request.user)

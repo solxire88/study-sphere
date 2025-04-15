@@ -67,14 +67,25 @@ class EnrollmentStatusUpdateView(generics.UpdateAPIView):
 
 # Student Views
 # List all enrollments for a student
-class StudentEnrollmentListView(generics.ListAPIView):
+class StudentPendingEnrollmentListView(generics.ListAPIView):
     serializer_class = EnrollmentRequestSerializer
     permission_classes = [IsStudent]
 
     def get_queryset(self):
-        # Only return enrollments for the logged-in student
-        return EnrollmentRequest.objects.filter(student=self.request.user, request = 'pending')
-    
+        # Only return enrollments for the logged-in student with status "pending"
+        return EnrollmentRequest.objects.filter(student=self.request.user, status='pending')
+
+
+# List accepted enrollments for a student
+class StudentAcceptedEnrollmentListView(generics.ListAPIView):
+    serializer_class = EnrollmentRequestSerializer
+    permission_classes = [IsStudent]
+
+    def get_queryset(self):
+        # Only return enrollments for the logged-in student with status "accepted"
+        return EnrollmentRequest.objects.filter(student=self.request.user, status='accepted')
+
+
 # New view for a student to cancel (delete) an enrollment request
 class EnrollmentDeleteView(generics.DestroyAPIView):
     serializer_class = EnrollmentRequestSerializer

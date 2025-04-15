@@ -71,3 +71,14 @@ class DocumentDownloadView(APIView):
         response = FileResponse(document.file.open('rb'), content_type='application/octet-stream')
         response['Content-Disposition'] = f'attachment; filename="{document.title}"'
         return response
+    
+    
+
+# Delete a document (only for the educator of the class).
+class DocumentDeleteView(generics.DestroyAPIView):
+    serializer_class = DocumentSerializer
+    permission_classes = [permissions.IsAuthenticated, IsEducator]
+
+    def get_queryset(self):
+        # Only allow deletion of documents for classes where the request.user is the educator (author).
+        return Document.objects.filter(class_obj__author=self.request.user)
