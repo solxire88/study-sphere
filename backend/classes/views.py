@@ -73,7 +73,7 @@ class StudentEnrollmentListView(generics.ListAPIView):
 
     def get_queryset(self):
         # Only return enrollments for the logged-in student
-        return EnrollmentRequest.objects.filter(student=self.request.user)
+        return EnrollmentRequest.objects.filter(student=self.request.user, request = 'pending')
     
 # New view for a student to cancel (delete) an enrollment request
 class EnrollmentDeleteView(generics.DestroyAPIView):
