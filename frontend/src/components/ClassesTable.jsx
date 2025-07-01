@@ -1,85 +1,117 @@
-import React from "react";
-import { Button } from "@heroui/react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-
-export const classes = [
-  {
-    id: 1,
-    title: "ML & Data Science",
-    schedule: "Mon, Wed - 13:00 ~ 14:00",
-    totalStudents: 20,
-    chapters: [
-      { title: "Chapter 1 - Introduction to ML & Data Science", date: "12-10-2025" },
-      { title: "Chapter 2 - Data Preprocessing and Analysis", date: "23-10-2025" },
-      { title: "Chapter 3 - Machine Learning Algorithms", date: "23-11-2025" },
-    ],
-  },
-  {
-    id: 2,
-    title: "Engineering",
-    schedule: "Mon, Wed - 13:00 ~ 14:00",
-    totalStudents: 11,
-    chapters: [
-      { title: "Chapter 1 - Engineering Fundamentals", date: "12-10-2025" },
-      { title: "Chapter 2 - Systems Design", date: "23-10-2025" },
-      { title: "Chapter 3 - Advanced Engineering Concepts", date: "23-11-2025" },
-    ],
-  },
-  {
-    id: 3,
-    title: "Cybersecurity",
-    schedule: "Mon, Wed - 13:00 ~ 14:00",
-    totalStudents: 7,
-    chapters: [
-      { title: "Chapter 1 - Introduction to Cybersecurity", date: "12-10-2025" },
-      { title: "Chapter 2 - Network Security", date: "23-10-2025" },
-      { title: "Chapter 3 - Ethical Hacking", date: "23-11-2025" },
-    ],
-  },
-  {
-    id: 4,
-    title: "Low-Level Programming",
-    schedule: "Mon, Wed - 13:00 ~ 14:00",
-    totalStudents: 16,
-    chapters: [
-      { title: "Chapter 1 - Introduction to Low-Level Programming", date: "12-10-2025" },
-      { title: "Chapter 2 - Memory Management", date: "23-10-2025" },
-      { title: "Chapter 3 - Assembly Language", date: "23-11-2025" },
-    ],
-  },
-];
+import axios from "axios";
+import { ACCESS_TOKEN, USER_ID, SALT } from "../constants";
 
 const ClassesTable = () => {
   const navigate = useNavigate();
+  const [classesData, setClassesData] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+  
+
+  // Retrieve your JWT (or token) however you store it
+  const token = localStorage.getItem(ACCESS_TOKEN);
+  const userId = localStorage.getItem(USER_ID);
+
+  function encodeId(id) {
+    return btoa(`${id}:${SALT}`);
+  }
+  console.log("Encoded User ID:", encodeId(userId));
+
+  useEffect(() => {
+    const fetchClasses = async () => {
+      try {
+        const { data } = await axios.get(
+          `http://127.0.0.1:8000/class/educator/classes/`,
+          {
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+        setClassesData(data);
+        console.log(data);
+      } catch (err) {
+        console.error(err);
+        setError(err.response?.statusText || err.message);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchClasses();
+  }, [token]);
 
   const handleViewCourse = (courseId) => {
-    navigate(`/educator/class/${courseId}`);
+    navigate(`/educator/class/${encodeId(courseId)}`);
   };
 
+  const handleDeleteCourse = async (courseId) => {
+    if (!window.confirm("Are you sure you want to delete this course?")) return;
+
+    try {
+      await axios.delete(
+        `http://127.0.0.1:8000/class/classes/${encodeId(courseId)}/`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      setClassesData((prev) => prev.filter((c) => c.id !== courseId));
+    } catch (err) {
+      console.error(err);
+      alert("Failed to delete course: " + (err.response?.statusText || err.message));
+    }
+  };
+
+  if (loading) return <p>Loading classes…</p>;
+  if (error) return <p>Error: {error}</p>;
+
   return (
-    <div className="bg-navy-900 rounded-lg border border-navy-800 overflow-hidden mt-8 w-full transition-transform transform hover:scale-105 hover:shadow-[0_0_15px_#004493]">
+    <div className="bg-navy-900 rounded-lg border border-navy-800 overflow-hidden w-full transition-all duration-300">
       <div className="p-6 overflow-x-auto">
-        <table className="w-full min-w-[600px] sm:min-w-full">
+        <table className="w-full min-w-[700px]">
           <thead>
-            <tr className="text-left border-b border-transparent">
-              <th className="text-white font-bold text-xl pb-4 px-4 sm:px-2">Title</th>
-              <th className="text-white font-bold text-xl pb-4 px-4 sm:px-2">Schedule</th>
-              <th className="text-white font-bold text-xl pb-4 px-4 sm:px-2">Total Students</th>
-              <th className="text-white font-bold text-xl pb-4 px-4 sm:px-2">Action</th>
+            <tr className="text-left border-b border-navy-800">
+              <th className="text-gray-400 font-medium text-md pb-4 px-4">Course</th>
+              <th className="text-gray-400 font-medium text-md pb-4 px-4">Schedule</th>
+              <th className="text-gray-400 font-medium text-md pb-4 px-4">Students</th>
+              <th className="text-gray-400 font-medium text-md pb-4 px-4">Actions</th>
             </tr>
           </thead>
           <tbody>
-            {classes.map((cls, index) => (
-              <tr key={index} className="border-b border-transparent last:border-b-0">
-                <td className="py-3 text-white px-4 sm:px-2">{cls.title}</td>
-                <td className="py-3 text-white px-4 sm:px-2">{cls.schedule}</td>
-                <td className="py-3 text-white px-4 sm:px-2">{cls.totalStudents}</td>
-                <td className="py-3 text-white px-4 sm:px-2">
+            {classesData.map((cls) => (
+              <tr
+                key={cls.id}
+                className="border-b border-navy-800 hover:bg-navy-800/50 transition-colors duration-200 last:border-b-0"
+              >
+                <td className="py-5 px-4">
+                  <div className="flex items-center gap-3">
+                    <div className="h-2.5 w-2.5 rounded-full bg-cyan-400"></div>
+                    <span className="text-white font-medium">{cls.title}</span>
+                  </div>
+                </td>
+                <td className="py-5 text-gray-300 px-4">{cls.schedule}</td>
+                <td className="py-5 px-4">
+                  <span className="text-white font-medium">
+                    {cls.enrolled_students?.length ?? 0}
+                  </span>
+                </td>
+                <td className="py-5 px-4 flex gap-2">
                   <button
                     onClick={() => handleViewCourse(cls.id)}
-                    className="text-blue-500 hover:text-blue-400 hover:bg-navy-800 p-1 rounded-full transition-all transform hover:scale-110 active:scale-95 active:bg-navy-700 active:text-blue-300"
+                    className="text-blue-400 hover:text-white hover:bg-blue-600/30 px-4 py-1.5 rounded-md transition-all border border-blue-600/30"
                   >
-                    View Course
+                    Manage
+                  </button>
+                  <button
+                    onClick={() => handleDeleteCourse(cls.id)}
+                    className="text-red-400 hover:text-white hover:bg-red-600/30 px-4 py-1.5 rounded-md transition-all border border-red-600/30"
+                  >
+                    Delete
                   </button>
                 </td>
               </tr>

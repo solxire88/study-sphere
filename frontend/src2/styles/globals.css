@@ -1,0 +1,226 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+      body {
+        @apply bg-[#04091c];
+      }
+    }
+
+    .white-text input {
+      color: white !important;
+      font-size: 1.2rem !important; /* Equivalent to text-lg */
+    }
+    
+    .custom-input input:focus {
+      border-color: #1d4ed8 !important; /* Tailwind's blue-700 */
+    }
+    
+/* Students Component - Responsive Adjustments */
+@media (max-width: 768px) {
+  .students-table th,
+  .students-table td {
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+
+  .students-table th:first-child,
+  .students-table td:first-child {
+    padding-right: 1rem; /* Reduce excessive padding on smaller screens */
+  }
+}
+
+/* About Component - Responsive Adjustments */
+@media (max-width: 768px) {
+  .about-table-container {
+    margin-left: 0; /* Remove excessive margin on smaller screens */
+  }
+
+  .about-table {
+    width: 100% !important; /* Make the table take full width on smaller screens */
+  }
+
+  .about-table th,
+  .about-table td {
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+}
+
+
+/* Custom hover effect for small screens */
+@media (max-width: 767px) {
+  .small-screen-hover-effect {
+    transition: all 0.3s ease-in-out;
+    padding: 1rem;
+    border-radius: 12px;
+    background-color: rgba(26, 31, 55, 0.8); /* Semi-transparent background */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    margin-bottom: 1.5rem; /* Add spacing between rows */
+  }
+
+  .small-screen-hover-effect:hover {
+    background-color: rgba(42, 47, 79, 0.9); /* Slightly darker semi-transparent background on hover */
+    box-shadow: 0 0 15px 5px rgba(166, 225, 250, 0.5); /* Stronger glow effect */
+    z-index: 1; /* Ensure the hovered row stays above other rows */
+  }
+
+  .small-screen-hover-effect td {
+    display: block;
+    width: 100%;
+    text-align: center;
+    padding: 0.75rem 0;
+  }
+
+  /* Push the table container down */
+  .overflow-x-auto {
+    margin-top: 2rem; /* Add margin to push the table down */
+  }
+}
+
+
+/* Add space between the first row and the top border of the table */
+.first-row {
+  margin-top: 2rem; /* Add margin to the first row */
+}
+
+
+/* Custom scrollbar styling */
+.scrollbar-custom::-webkit-scrollbar {
+  width: 8px; /* Make the scrollbar thinner */
+}
+
+.scrollbar-custom::-webkit-scrollbar-track {
+  background: transparent; /* Transparent track */
+}
+
+.scrollbar-custom::-webkit-scrollbar-thumb {
+  background: #1F9BA6; /* Scrollbar thumb color */
+  border-radius: 4px; /* Rounded corners */
+}
+
+.scrollbar-custom::-webkit-scrollbar-thumb:hover {
+  background: #1A7F8A; /* Scrollbar thumb color on hover */
+}
+
+
+
+
+
+/* Global CSS file (e.g., index.css or App.css) */
+
+/* Slide-in animation */
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Slide-out animation */
+@keyframes slideOut {
+  from {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  to {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+}
+
+/* Modal overlay styles */
+.modal-overlay {
+  background-color: rgba(0, 0, 0, 0.5) !important;
+  backdrop-filter: blur(5px) !important;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Modal content styles */
+.modal-content {
+  position: relative;
+  width: 400px;
+  margin: auto;
+  padding: 20px;
+  border-radius: 10px;
+  border: 2px solid white;
+  background-color: #04091C;
+  color: white;
+  animation: slideIn 0.3s ease-out;
+}
+
+/* Close button styles */
+.modal-close-button {
+  margin-top: 10px;
+  padding: 5px 10px;
+  background-color: transparent;
+  border: 1px solid white;
+  color: white;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+
+
+
+/* Global CSS file (e.g., index.css or App.css) */
+
+/* Slide-up animation */
+@keyframes slideUp {
+  from {
+    transform: translateY(100%);
+  }
+  to {
+    transform: translateY(0);
+  }
+}
+
+/* Slide-down animation */
+@keyframes slideDown {
+  from {
+    transform: translateY(0);
+  }
+  to {
+    transform: translateY(100%);
+  }
+}
+
+/* Apply animations to the modal */
+.modal-enter .ReactModal__Content {
+  animation: slideUp 0.3s ease-out;
+}
+
+.modal-exit .ReactModal__Content {
+  animation: slideDown 0.3s ease-out;
+}
+
+
+/* Global CSS */
+.modal-animation-enter {
+  opacity: 0;
+  transform: translateY(-20px);
+}
+
+.modal-animation-enter-active {
+  opacity: 1;
+  transform: translateY(0);
+  transition: opacity 300ms, transform 300ms;
+}
+
+.modal-animation-exit {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.modal-animation-exit-active {
+  opacity: 0;
+  transform: translateY(-20px);
+  transition: opacity 300ms, transform 300ms;
+}

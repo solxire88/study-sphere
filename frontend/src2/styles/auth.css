@@ -1,0 +1,19 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+      body {
+        @apply bg-[#04091c];
+      }
+    }
+
+    .white-text input {
+      color: white !important;
+      font-size: 1.2rem !important; /* Equivalent to text-lg */
+    }
+    
+    .custom-input input:focus {
+      border-color: #1d4ed8 !important; /* Tailwind's blue-700 */
+    }
+    

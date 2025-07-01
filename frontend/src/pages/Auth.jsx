@@ -3,8 +3,8 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
-import { GraduationCap, Users } from "lucide-react";
-import { ACCESS_TOKEN, REFRESH_TOKEN } from "../constants";
+import { GraduationCap, Users, Eye, EyeOff } from "lucide-react";
+import { ACCESS_TOKEN, REFRESH_TOKEN, USER_ID, USERNAME } from "../constants";
 import { jwtDecode } from "jwt-decode";
 import { Input } from "@heroui/input";
 import { Button } from "@heroui/button";
@@ -16,13 +16,25 @@ export default function AuthPage() {
   const [role, setRole] = useState("student");
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
   const [email, setEmail] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const navigate = useNavigate();
+
+
+
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setErrorMessage("");
+
+    // Check if passwords match when registering
+    if (!isLogin && password !== confirmPassword) {
+      setErrorMessage("Passwords do not match");
+      return;
+    }
 
     try {
       if (isLogin) {
@@ -30,11 +42,15 @@ export default function AuthPage() {
           username,
           password,
         });
+        const decoded = jwtDecode(response.data.access);
+        const userNameFromToken = decoded.username;
+        const userID = decoded.id;
 
         localStorage.setItem(ACCESS_TOKEN, response.data.access);
         localStorage.setItem(REFRESH_TOKEN, response.data.refresh);
+        localStorage.setItem(USER_ID, String(userID));
+        localStorage.setItem(USERNAME, userNameFromToken); 
 
-        const decoded = jwtDecode(response.data.access);
         const userRole = decoded.role;
         console.log(userRole);
 
@@ -144,11 +160,11 @@ export default function AuthPage() {
                       />
                     </div>
 
-                    {/* Password input */}
-                    <div>
+                    {/* Password input with visibility toggle */}
+                    <div className="relative">
                       <Input
                         label="Password"
-                        type="password"
+                        type={showPassword ? "text" : "password"}
                         value={password}
                         onChange={(e) => setPassword(e.target.value)}
                         variant="underlined"
@@ -165,6 +181,17 @@ export default function AuthPage() {
                           label: "text-lg",
                         }}
                       />
+                      <button
+                        type="button"
+                        className="absolute right-2 top-1/2 -translate-y-1/2 text-white/60 hover:text-white transition-colors"
+                        onClick={() => setShowPassword(!showPassword)}
+                      >
+                        {showPassword ? (
+                          <EyeOff className="h-5 w-5" />
+                        ) : (
+                          <Eye className="h-5 w-5" />
+                        )}
+                      </button>
                     </div>
                   </div>
 
@@ -243,11 +270,11 @@ export default function AuthPage() {
                       />
                     </div>
 
-                    {/* Password input */}
-                    <div>
+                    {/* Password input with visibility toggle */}
+                    <div className="relative">
                       <Input
                         label="Password"
-                        type="password"
+                        type={showPassword ? "text" : "password"}
                         value={password}
                         onChange={(e) => setPassword(e.target.value)}
                         variant="underlined"
@@ -264,7 +291,57 @@ export default function AuthPage() {
                           label: "text-lg",
                         }}
                       />
+                      <button
+                        type="button"
+                        className="absolute right-2 top-1/2 -translate-y-1/2 text-white/60 hover:text-white transition-colors"
+                        onClick={() => setShowPassword(!showPassword)}
+                      >
+                        {showPassword ? (
+                          <EyeOff className="h-5 w-5" />
+                        ) : (
+                          <Eye className="h-5 w-5" />
+                        )}
+                      </button>
                     </div>
+
+                    {/* Confirm Password input with visibility toggle - only shown when password has value */}
+                    {password.length > 0 && (
+                      <div className="relative">
+                        <Input
+                          label="Confirm Password"
+                          type={showConfirmPassword ? "text" : "password"}
+                          value={confirmPassword}
+                          onChange={(e) => setConfirmPassword(e.target.value)}
+                          variant="underlined"
+                          className="white-text"
+                          classNames={{
+                            inputWrapper: [
+                              "border-white",
+                              "max-lg:border-[#004493]",
+                              "group-data-[focus=true]:border-[#004493]",
+                              "transition-colors",
+                              "duration-3000",
+                              confirmPassword.length > 0 ? "!border-[#004493]" : "",
+                            ],
+                            label: "text-lg",
+                          }}
+                        />
+                        <button
+                          type="button"
+                          className="absolute right-2 top-1/2 -translate-y-1/2 text-white/60 hover:text-white transition-colors"
+                          onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+                        >
+                          {showConfirmPassword ? (
+                            <EyeOff className="h-5 w-5" />
+                          ) : (
+                            <Eye className="h-5 w-5" />
+                          )}
+                        </button>
+                        {confirmPassword.length > 0 && password !== confirmPassword && (
+                          <p className="text-red-400 text-xs mt-1">Passwords do not match</p>
+                        )}
+                      </div>
+                    )}
 
                     {/* Role selection buttons */}
                     <div className="space-y-3">
@@ -316,6 +393,7 @@ export default function AuthPage() {
                                max-lg:border-[#004493] 
                                max-lg:hover:shadow-[0_2px_4px_rgba(0,0,0,0.1),0_-1px_0_rgba(255,255,255,0.05)_inset,0_0_2px_rgba(255,255,255,0.2)]
                                max-lg:active:shadow-[0_1px_2px_rgba(0,0,0,0.1),0_-1px_0_rgba(255,255,255,0.05)_inset]"
+                    isDisabled={!isLogin && password !== confirmPassword}
                   >
                     Create Account
                   </Button>

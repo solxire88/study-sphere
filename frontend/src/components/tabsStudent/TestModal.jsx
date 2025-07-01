@@ -6,6 +6,8 @@ const TestModal = ({ isOpen, onRequestClose, test, mode }) => {
   const [submitted, setSubmitted] = useState(false);
   const [score, setScore] = useState(0);
 
+  console.log("TestModal", { isOpen, test, mode });
+
   useEffect(() => {
     if (isOpen) {
       window.scrollTo({ top: document.body.scrollHeight, behavior: "smooth" });
@@ -84,7 +86,8 @@ const TestModal = ({ isOpen, onRequestClose, test, mode }) => {
                   >
                     <p className="font-semibold mb-4">{question.question}</p>
                     <ul className="space-y-3">
-                      {question.choices.map((choice, choiceIndex) => (
+                      {/* Only show first 3 choices */}
+                       {question.choices.map((choice, choiceIndex) => (
                         <li
                           key={choiceIndex}
                           className={`flex items-center space-x-3 ${

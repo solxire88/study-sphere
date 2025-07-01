@@ -31,7 +31,7 @@ function App() {
             <Route index element={<Navigate to="classes" replace />} />
             <Route path="classes" element={<StudentClasses />} />
             <Route path="explore" element={<StudentExplore />} />
-            <Route path="class/:id" element={<ClassDetails />} /> {/* New route */}
+            <Route path="class/:hash" element={<ClassDetails />} /> {/* New route */}
           </Route>
         </Route>
 
@@ -41,7 +41,7 @@ function App() {
             <Route index element={<Navigate to="classes" replace />} />
             <Route path="classes" element={<EducatorClasses />} />
             <Route path="new-class" element={<NewClass />} />
-            <Route path="class/:id" element={<CourseDetailsEducator />} /> {/* New route */}
+            <Route path="class/:hash" element={<CourseDetailsEducator />} /> {/* New route */}
           </Route>
         </Route>
 

@@ -1,9 +1,8 @@
 import axios from "axios"
-import { ACCESS_TOKEN} from "./constants"
+import { ACCESS_TOKEN } from "./constants"
 
 const api = axios.create({
     baseURL: import.meta.env.VITE_API_URL,
-
 });
 
 api.interceptors.request.use(
@@ -18,5 +17,9 @@ api.interceptors.request.use(
         return Promise.reject(error);
     }
 );
+
+// Class endpoints
+export const getClasses = () => api.get("/classes/");
+export const createNewClass = (classData) => api.post("/classes/", classData);
 
 export default api;

@@ -8,7 +8,7 @@ class User(AbstractUser):
         ('educator', 'Educator'),
     )
     role = models.CharField(max_length=10, choices=ROLES, default='student')
-    
+    id = models.AutoField(primary_key=True)
     # REQUIRED FIELDS
     groups = models.ManyToManyField(
         Group,

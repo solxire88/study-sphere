@@ -5,6 +5,11 @@ class Class(models.Model):
     title = models.CharField(max_length=200)
     author = models.ForeignKey(User, on_delete=models.CASCADE, related_name='authored_classes')
     tags = models.JSONField(default=list)
+    difficulty = models.CharField(max_length=50, default='intermediate', choices=[
+        ('beginner', 'Beginner'),
+        ('intermediate', 'Intermediate'),
+        ('advanced', 'Advanced'),
+    ])
     schedule = models.TextField()
     description = models.TextField()
     syllabus = models.TextField()

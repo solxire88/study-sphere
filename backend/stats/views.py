@@ -5,6 +5,8 @@ from transformers import pipeline
 from .models import Rating, Feedback
 from .serializers import RatingSerializer, FeedbackSerializer
 from classes.models import Class
+from django.shortcuts import get_object_or_404
+from django.conf import settings
 
 # Initialize the Hugging Face sentiment-analysis pipeline with a small model.
 sentiment_pipeline = pipeline("sentiment-analysis", model="distilbert-base-uncased-finetuned-sst-2-english")
@@ -70,3 +72,28 @@ class EducatorAverageSentimentView(generics.GenericAPIView):
         classes = Class.objects.filter(author_id=educator_id)
         avg_sentiment = Feedback.objects.filter(class_obj__in=classes).aggregate(average=Avg('sentiment_score'))
         return Response(avg_sentiment, status=status.HTTP_200_OK)
+
+class StudentRatingDetailView(generics.RetrieveAPIView):
+    """
+    GET /stats/rate/me/<class_id>/
+    Returns the logged-in student’s own rating for that class, if any.
+    """
+    serializer_class = RatingSerializer
+    permission_classes = [permissions.IsAuthenticated]
+
+    def get_object(self):
+        cls = get_object_or_404(Class, pk=self.kwargs['class_id'])
+        return get_object_or_404(Rating, class_obj=cls, student=self.request.user)
+
+
+class StudentFeedbackDetailView(generics.RetrieveAPIView):
+    """
+    GET /stats/feedback/me/<class_id>/
+    Returns the logged-in student’s own feedback for that class, if any.
+    """
+    serializer_class = FeedbackSerializer
+    permission_classes = [permissions.IsAuthenticated]
+
+    def get_object(self):
+        cls = get_object_or_404(Class, pk=self.kwargs['class_id'])
+        return get_object_or_404(Feedback, class_obj=cls, student=self.request.user)

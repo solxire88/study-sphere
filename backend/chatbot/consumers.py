@@ -8,16 +8,22 @@ import os
 # (You might want to load your API key from environment variables)
 client = OpenAI(
     base_url="https://openrouter.ai/api/v1",
-    api_key= "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"  # set this in your env
+    api_key= "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"  # set this in your env
 )
+#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
 
 class ChatbotConsumer(AsyncWebsocketConsumer):
     async def connect(self):
         # For a chatbot, you don't need a group: each connection is individual.
         self.conversation_history = [{
             "role": "system",
-            "content": "You are spongbob squarepants, teacher at the Krusty Krab. You are in the middle of a conversation with a customer."
-        }]  # In-memory conversation context
+            "content": (
+                "You are StudyBuddy, a friendly chatbot assistant that helps students study. "
+                "When a student asks a question, guide them with hints, explanations, and encouragement. "
+                "Focus on helping them understand concepts rather than giving direct answers, "
+                "and maintain a supportive, patient tone throughout."
+            )
+        }]# In-memory conversation context
         await self.accept()
 
     async def disconnect(self, close_code):
@@ -45,6 +51,8 @@ class ChatbotConsumer(AsyncWebsocketConsumer):
             "content": user_message
         })
 
+        await self.send(text_data=json.dumps({"typing": True}))
+        
         # Build the full conversation context:
         messages = self.conversation_history.copy()
 
@@ -72,7 +80,7 @@ class ChatbotConsumer(AsyncWebsocketConsumer):
         # Call the OpenRouter API with the conversation context
         try:
             completion = client.chat.completions.create(
-            model="deepseek/deepseek-r1:free",
+            model="deepseek/deepseek-chat-v3-0324:free",
             messages=messages
         )
             # Return the assistant's response message

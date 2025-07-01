@@ -27,7 +27,7 @@ class ChatConsumer(AsyncWebsocketConsumer):
         )
         await self.accept()
 
-        # Optionally send recent chat history (e.g., last 50 messages)
+        # Send recent chat history (last 100 messages)
         await self.send_chat_history()
 
     async def disconnect(self, close_code):
@@ -46,7 +46,10 @@ class ChatConsumer(AsyncWebsocketConsumer):
             await self.send(text_data=json.dumps({"error": "Invalid JSON received"}))
             return
 
-        message = data.get("message", "")
+        message = data.get("message", "").strip()
+        if not message:
+            return  # ignore empty messages
+
         user = self.scope["user"]
 
         # Save the message to the database
@@ -64,23 +67,25 @@ class ChatConsumer(AsyncWebsocketConsumer):
         )
 
     async def chat_message(self, event):
+        # send a flat object so client can parse .message/.username/.timestamp
         await self.send(text_data=json.dumps({
             "message": event["message"],
-            "username": event["username"],
-            "timestamp": event["timestamp"],
+            "sender": event["username"],
+            "time": event["timestamp"],
         }))
 
     async def send_chat_history(self):
-        messages = await self.get_chat_history(self.class_id)
-        # Build a simple list of messages; you can use a serializer if desired.
+        # fetch last 100 messages in chronological order
+        msgs = await self.get_chat_history(self.class_id)
         history = []
-        for msg in messages:
+        for msg in msgs:
             history.append({
-                "username": msg.sender.username,
                 "message": msg.content,
-                "timestamp": msg.timestamp.isoformat(),
+                "sender": msg.sender.username,
+                "time": msg.timestamp.isoformat(),
             })
-        await self.send(text_data=json.dumps({"history": history}))
+        # send as plain array so client onmessage handles Array.isArray
+        await self.send(text_data=json.dumps(history))
 
     @database_sync_to_async
     def save_message(self, user, class_id, message):
@@ -93,12 +98,9 @@ class ChatConsumer(AsyncWebsocketConsumer):
 
     @database_sync_to_async
     def get_chat_history(self, class_id):
-        # Return the last 50 messages in chronological order with sender pre-fetched.
-        return list(
-            ChatMessage.objects.filter(class_obj_id=class_id)
-            .select_related("sender")
-            .order_by("timestamp")[:50]
-        )
+        # Return the last 100 messages in chronological order
+        qs = ChatMessage.objects.filter(class_obj_id=class_id).select_related("sender").order_by("-timestamp")[:100]
+        return list(reversed(qs))
 
     @database_sync_to_async
     def check_membership(self, user, class_id):
@@ -106,5 +108,4 @@ class ChatConsumer(AsyncWebsocketConsumer):
             class_obj = Class.objects.get(pk=class_id)
         except Class.DoesNotExist:
             return False
-        # User is allowed if they are the class author or an accepted student.
         return user == class_obj.author or user in class_obj.enrolled_students.all()

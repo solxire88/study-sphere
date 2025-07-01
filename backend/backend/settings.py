@@ -187,3 +187,12 @@ CORS_ALLOW_CREDENTIALS = True
 
   # This will change how file URLs appear
 MEDIA_ROOT = os.path.join(BASE_DIR, "media")  # Where files are stored
+
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+
+# Your SMTP server credentials:
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_HOST_USER = 'naoufel88.gumball@gmail.com'          # e.g. 'myaccount@gmail.com'
+EMAIL_HOST_PASSWORD = 'takh wigh whad xdra'   # your SMTP password or app‑specific password
+EMAIL_USE_TLS = True   

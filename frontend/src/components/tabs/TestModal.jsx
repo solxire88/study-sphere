@@ -2,7 +2,6 @@ import React, { useEffect } from "react";
 import { Card, CardHeader, CardBody, Button } from "@heroui/react";
 
 const TestModal = ({ isOpen, onRequestClose, test, mode }) => {
-  // Scroll to the bottom of the page when the modal opens
   useEffect(() => {
     if (isOpen) {
       window.scrollTo({
@@ -73,7 +72,7 @@ const TestModal = ({ isOpen, onRequestClose, test, mode }) => {
                         <li
                           key={idx}
                           className={`flex items-center space-x-3 ${
-                            idx === question.correctAnswer ? "text-green-300" : "text-white"
+                            idx === question.correctAnswer ? "text-green-600" : "text-white"
                           }`}
                         >
                           <input
@@ -104,36 +103,6 @@ const TestModal = ({ isOpen, onRequestClose, test, mode }) => {
           </div>
         </CardBody>
       </Card>
-
-      <style>
-        {`
-          ::-webkit-scrollbar {
-            width: 6px;
-            background: transparent;
-          }
-
-          ::-webkit-scrollbar-thumb {
-            background: rgba(166, 225, 250, 0.4);
-            border-radius: 10px;
-            border: 1px solid rgba(166, 225, 250, 0.2);
-            transition: background 0.3s ease-out, border 0.3s ease-out;
-          }
-
-          ::-webkit-scrollbar-thumb:hover {
-            background: rgba(166, 225, 250, 0.6);
-            border: 1px solid rgba(166, 225, 250, 0.4);
-          }
-
-          ::-webkit-scrollbar-track {
-            background: transparent;
-            margin: 8px;
-          }
-
-          ::-webkit-scrollbar-corner {
-            background: transparent;
-          }
-        `}
-      </style>
     </div>
   );
 };

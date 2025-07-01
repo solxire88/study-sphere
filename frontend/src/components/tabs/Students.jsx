@@ -1,151 +1,183 @@
-import React from "react";
-import { User } from "lucide-react";
+"use client";
+import React, { useState, useEffect } from "react";
+import axios from "axios";
+import { X, Check } from "lucide-react";
+import PendingList from "./PendingList";
+import AcceptedList from "./AcceptedList";
+import { ACCESS_TOKEN } from "../../constants";
 
-// Function to generate random student names
-const generateRandomNames = (count) => {
-  const firstNames = ["John", "Jane", "Alice", "Bob", "Charlie", "Diana", "Eva", "Frank", "Grace", "Henry"];
-  const lastNames = ["Smith", "Johnson", "Williams", "Brown", "Jones", "Garcia", "Miller", "Davis", "Rodriguez", "Martinez"];
+export default function Students({ students: initialStudents, classId }) {
+  const [activeTab, setActiveTab] = useState("accepted");
+  const [students, setStudents] = useState(initialStudents || []);
+  const [showConfirm, setShowConfirm] = useState(false);
+  const [studentToDelete, setStudentToDelete] = useState(null);
+  const [progress, setProgress] = useState({ total_docs: 0, per_student: [] });
 
-  return Array.from({ length: count }, () => {
-    const firstName = firstNames[Math.floor(Math.random() * firstNames.length)];
-    const lastName = lastNames[Math.floor(Math.random() * lastNames.length)];
-    return `${firstName} ${lastName}`;
-  });
-};
+  const token =
+    typeof window !== "undefined"
+      ? localStorage.getItem(ACCESS_TOKEN)
+      : null;
 
-// Function to generate random joining dates
-const generateRandomJoiningDates = (count) => {
-  const startDate = new Date(2020, 0, 1); // Start date (January 1, 2020)
-  const endDate = new Date(); // End date (today)
+  
+    useEffect(() => {
+  const token = localStorage.getItem(ACCESS_TOKEN);
+   axios
+     .get(`${import.meta.env.VITE_API_URL}/docs/${classId}/progress/`, {
+       headers: { Authorization: `Bearer ${token}` },
+     })
+     .then((res) => setProgress(res.data))
+     .catch(console.error);
+  }, [classId]);
+  console.log("Progress data:", progress);
 
-  return Array.from({ length: count }, () => {
-    const randomDate = new Date(startDate.getTime() + Math.random() * (endDate.getTime() - startDate.getTime()));
-    return randomDate.toLocaleDateString(); // Format as MM/DD/YYYY
-  });
-};
+  const filteredPending = students.filter((s) => s.status === "pending");
+  const filteredAccepted = students.filter((s) => s.status === "accepted");
 
-export default function Students({ totalStudents }) {
-  const studentNames = generateRandomNames(totalStudents);
-  const joiningDates = generateRandomJoiningDates(totalStudents);
+  const acceptStudent = async (id) => {
+    try {
+      await axios.patch(
+        `http://127.0.0.1:8000/class/enrollments/${id}/`,
+        { status: "accepted" },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+          },
+        }
+      );
+      setStudents((prev) =>
+        prev.map((s) => (s.id === id ? { ...s, status: "accepted" } : s))
+      );
+    } catch (err) {
+      console.error("Accept error:", err);
+    }
+  };
+
+  const handleDeleteClick = (enrollment) => {
+    setStudentToDelete(enrollment);
+    setShowConfirm(true);
+  };
+
+  const confirmDelete = async () => {
+    const id = studentToDelete.id;
+    try {
+      // As educator, "decline" rather than delete
+      await axios.patch(
+        `http://127.0.0.1:8000/class/enrollments/${id}/`,
+        { status: "declined" },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+          },
+        }
+      );
+      // remove from UI
+      setStudents((prev) => prev.filter((s) => s.id !== id));
+      setShowConfirm(false);
+      setStudentToDelete(null);
+    } catch (err) {
+      console.error("Decline error:", err);
+    }
+  };
+
+  const cancelDelete = () => {
+    setShowConfirm(false);
+    setStudentToDelete(null);
+  };
 
   return (
-    <div
-      className="p-6 rounded-lg flex justify-center animate-float"
-      style={{
-        backgroundColor: "#04091C",
-        background: "linear-gradient(145deg, #04091C, #0A0F24)",
-        boxShadow: "0 4px 20px rgba(30, 144, 255, 0.2)",
-        maxWidth: "700px",
-        maxHeight: "80vh",
-        width: "90%",
-        margin: "auto",
-      }}
-    >
-      <div className="overflow-x-auto w-full lg:w-auto lg:flex lg:justify-center">
-        <table className="text-white border-collapse w-full lg:w-auto">
-          <thead>
-            <tr>
-              <th className="py-3 px-6 lg:pr-32 pr-16 text-left text-md font-semibold border-b border-[#1E90FF]/30">
-                Student Name
-              </th>
-              <th className="py-3 px-6 text-left text-md font-semibold border-b border-[#1E90FF]/30">
-                Joining Date
-              </th>
-            </tr>
-          </thead>
-          <tbody>
-            {studentNames.map((name, index) => (
-              <tr
-                key={index}
-                className="hover:bg-[#0A0F24] transition-all duration-300 animate-fade-in"
-                style={{ animationDelay: `${index * 0.1}s` }}
-              >
-                <td className="py-3 px-6 lg:pr-32 pr-16 text-left">
-                  <span className="inline-flex items-center hover:translate-x-2 hover:scale-105 transition-transform duration-300 hover:text-[#1E90FF]">
-                    <User className="w-5 h-5 mr-2 transition-transform duration-300 hover:-translate-y-1 hover:text-[#1E90FF] animate-float-icon" />
-                    {name}
-                  </span>
-                </td>
-
-                <td className="py-3 px-6 text-left">
-                  <span className="inline-block hover:translate-x-2 hover:scale-105 transition-transform duration-300 hover:text-[#1E90FF]">
-                    {joiningDates[index]}
-                  </span>
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
+    <div className="flex flex-col items-center w-full relative">
+      {/* Tab buttons */}
+      <div className="flex mb-6 space-x-4">
+        <button
+          onClick={() => setActiveTab("accepted")}
+          className={`px-6 py-2 rounded-lg font-medium transition-all duration-300 ${
+            activeTab === "accepted"
+              ? "bg-[#1E90FF] text-white shadow-lg shadow-[#1E90FF]/30"
+              : "bg-[#0A0F24] text-gray-300 hover:bg-[#1E90FF]/20"
+          }`}
+        >
+          Accepted
+        </button>
+        <button
+          onClick={() => setActiveTab("pending")}
+          className={`px-6 py-2 rounded-lg font-medium transition-all duration-300 ${
+            activeTab === "pending"
+              ? "bg-[#1E90FF] text-white shadow-lg shadow-[#1E90FF]/30"
+              : "bg-[#0A0F24] text-gray-300 hover:bg-[#1E90FF]/20"
+          }`}
+        >
+          Pending
+        </button>
       </div>
 
-      <style>
-        {`
-          ::-webkit-scrollbar {
-            width: 6px;
-            background: transparent;
-          }
+      {/* Lists */}
+      {activeTab === "accepted" ? (
+        <AcceptedList
+          students={filteredAccepted}
+          onDeleteClick={handleDeleteClick}
+          progress={progress}
+           // Pass classId if needed for progress
+        />
+      ) : (
+        <PendingList
+          students={filteredPending}
+          onAccept={acceptStudent}
+          onDeleteClick={handleDeleteClick}
+        />
+      )}
 
-          ::-webkit-scrollbar-thumb {
-            background: rgba(30, 144, 255, 0.3);
-            border-radius: 10px;
-            transition: background 0.3s ease-out;
-          }
+      {/* Confirmation Modal */}
+      {showConfirm && (
+        <div className="fixed inset-0 bg-black bg-opacity-70 flex items-center justify-center z-50">
+          <div
+            className="p-6 rounded-lg"
+            style={{
+              background: "linear-gradient(145deg, #04091C, #0A0F24)",
+              boxShadow: "0 4px 20px rgba(30, 144, 255, 0.5)",
+              maxWidth: "400px",
+              width: "90%",
+            }}
+          >
+            <h3 className="text-lg font-medium text-white mb-4">
+              Decline {studentToDelete?.student}?
+            </h3>
+            <p className="text-gray-400 mb-6">
+              This will remove their enrollment request.
+            </p>
+            <div className="flex justify-end space-x-3">
+              <button
+                onClick={cancelDelete}
+                className="flex items-center px-4 py-2 rounded-lg bg-gray-700 text-gray-300 hover:bg-gray-600 transition-colors"
+              >
+                <X className="w-4 h-4 mr-2" />
+                Cancel
+              </button>
+              <button
+                onClick={confirmDelete}
+                className="flex items-center px-4 py-2 rounded-lg bg-red-900/80 text-red-300 hover:bg-red-900 transition-colors"
+              >
+                <Check className="w-4 h-4 mr-2" />
+                Confirm Decline
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
 
-          ::-webkit-scrollbar-thumb:hover {
-            background: rgba(30, 144, 255, 0.5);
-          }
-
-          ::-webkit-scrollbar-track {
-            background: transparent;
-            margin: 8px;
-          }
-
-          ::-webkit-scrollbar-corner {
-            background: transparent;
-          }
-
-          @keyframes fade-in {
-            0% {
-              opacity: 0;
-              transform: translateY(10px);
-            }
-            100% {
-              opacity: 1;
-              transform: translateY(0);
-            }
-          }
-
-          .animate-fade-in {
-            animation: fade-in 0.5s ease-out forwards;
-          }
-
-          @keyframes float {
-            0%, 100% {
-              transform: translateY(0);
-            }
-            50% {
-              transform: translateY(-10px);
-            }
-          }
-
-          .animate-float {
-            animation: float 4s ease-in-out infinite;
-          }
-
-          @keyframes float-icon {
-            0%, 100% {
-              transform: translateY(0);
-            }
-            50% {
-              transform: translateY(-5px);
-            }
-          }
-
-          .animate-float-icon {
-            animation: float-icon 3s ease-in-out infinite;
-          }
-        `}
-      </style>
+      <style jsx>{`
+        div::-webkit-scrollbar {
+          width: 6px;
+        }
+        div::-webkit-scrollbar-thumb {
+          background: rgba(30, 144, 255, 0.3);
+          border-radius: 10px;
+        }
+        div::-webkit-scrollbar-thumb:hover {
+          background: rgba(30, 144, 255, 0.5);
+        }
+      `}</style>
     </div>
   );
 }

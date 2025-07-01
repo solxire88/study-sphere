@@ -5,7 +5,7 @@ class AnswerOptionSerializer(serializers.ModelSerializer):
     class Meta:
         model = AnswerOption
         fields = ['id', 'text', 'is_correct']
-        extra_kwargs = {'is_correct': {'write_only': True}}  # Optionally hide is_correct from students
+        # extra_kwargs = {'is_correct': {'write_only': True}}  # Optionally hide is_correct from students
 
 
 class QuestionSerializer(serializers.ModelSerializer):

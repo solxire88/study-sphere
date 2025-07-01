@@ -5,15 +5,21 @@ import EnrolledCourses from "../components/EnrolledCourses";
 import { Input } from "@heroui/react";
 import { Search } from "lucide-react";
 import "../styles/studentPage.css";
+import { SALT } from "../constants";
+
+
 
 export default function StudentHome() {
   const [searchValue, setSearchValue] = useState("");
   const [activeTag, setActiveTag] = useState(null);
 
   const handleTagClick = (tag) => {
-    setActiveTag(tag);
-    console.log(`Clicked tag: ${tag}`);
+    setActiveTag((prevTag) => (prevTag === tag ? null : tag));
   };
+
+  function encodeId(id) {
+    return btoa(`${id}:${SALT}`);
+  }
 
   const tags = [
     "Web Development",
@@ -37,7 +43,7 @@ export default function StudentHome() {
             type="text"
             variant="underlined"
             value={searchValue}
-            onChange={(e) => setSearchValue(e.value)}
+            onChange={(e) => setSearchValue(e.target.value)}
             className="search-input-wrapper white-text w-full max-w-md mx-auto sm:max-w-2xl"
             startContent={<Search className="text-gray-500" />}
           />
@@ -59,7 +65,7 @@ export default function StudentHome() {
           ))}
         </div>
 
-        <EnrolledCourses />
+        <EnrolledCourses searchValue={searchValue} activeTag={activeTag} />
       </div>
 
       <div className="h-[500px] bg-transparent"></div>

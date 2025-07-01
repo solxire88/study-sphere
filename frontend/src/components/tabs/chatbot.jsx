@@ -1,107 +1,140 @@
+
+"use client";
 import React, { useState, useEffect, useRef, useCallback } from "react";
-import { Send } from 'lucide-react';
+import ReactMarkdown from "react-markdown";
+import remarkGfm from "remark-gfm";
+import remarkMath from "remark-math";
+import rehypeRaw from "rehype-raw";
+import rehypeSanitize from "rehype-sanitize";
+import rehypeKatex from "rehype-katex";
+import { Send } from "lucide-react";
+import { ACCESS_TOKEN } from "../../constants";
+import "katex/dist/katex.min.css";
 
 const Chatbot = () => {
   const [messages, setMessages] = useState([
-    { id: 1, text: "Hello! Welcome to the chatbot.", sender: "system", time: "10:00 AM" },
-    { id: 2, text: "Hey! How can I assist you today?", sender: "user", time: "10:05 AM" },
-    { id: 3, text: "I'm here to help you with your queries.", sender: "system", time: "10:07 AM" },
-    { id: 4, text: "Great! Let's get started.", sender: "user", time: "10:10 AM" },
+    {
+      id: 1,
+      text: `Hello! I’m **StudyBuddy**, your chatbot study assistant. You can write Markdown _and_ LaTeX math like $E = mc^2$ or display it in block form:
+
+$$
+\int_0^1 x^2 \,dx = \frac{1}{3}
+$$`,
+      sender: "system",
+      time: "10:00 AM",
+    },
   ]);
   const [input, setInput] = useState("");
-
+  const [isTyping, setIsTyping] = useState(false);
+  const socketRef = useRef(null);
+  const pendingRef = useRef(new Set());
   const messagesEndRef = useRef(null);
 
-  // Scroll to the bottom whenever messages change
+  // auto-scroll on new messages or typing indicator
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
-  }, [messages]);
+  }, [messages, isTyping]);
 
-  // Handle message submission
-  const sendMessage = useCallback(() => {
-    if (input.trim() === "") return;
+  // initialize WebSocket
+  useEffect(() => {
+    const token = localStorage.getItem(ACCESS_TOKEN);
+    if (!token) {
+      console.error("No access token—please log in.");
+      return;
+    }
+    const ws = new WebSocket(`ws://127.0.0.1:8000/ws/chatbot/?token=${token}`);
+    socketRef.current = ws;
 
-    const newMessage = {
-      id: messages.length + 1,
-      text: input,
-      sender: "user",
-      time: new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" }),
+    ws.onopen = () => console.log("Connected to StudyBuddy");
+    ws.onmessage = (evt) => {
+      const data = JSON.parse(evt.data);
+
+      if (data.typing) {
+        setIsTyping(true);
+        return;
+      }
+
+      setIsTyping(false);
+      const text = data.message || "";
+      if (pendingRef.current.has(text)) {
+        pendingRef.current.delete(text);
+        return;
+      }
+      setMessages((prev) => [
+        ...prev,
+        { id: prev.length + 1, text, sender: "chatbot", time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) }
+      ]);
     };
+    ws.onerror = (err) => console.error("WebSocket error", err);
+    ws.onclose = () => console.log("Disconnected from StudyBuddy");
+    return () => ws.close();
+  }, []);
 
-    setMessages((prevMessages) => [...prevMessages, newMessage]);
+  // send user message
+  const sendMessage = useCallback(() => {
+    const text = input.trim();
+    if (!text || !socketRef.current) return;
+
+    const time = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+    setMessages((prev) => [...prev, { id: prev.length + 1, text, sender: 'user', time }]);
+
+    socketRef.current.send(JSON.stringify({ message: text, emitTyping: true }));
+    pendingRef.current.add(text);
+    setIsTyping(true);
     setInput("");
-  }, [input, messages.length]);
+  }, [input]);
 
   return (
-    <div className="max-w-xl w-full mx-auto mt-4">
-      {/* Chat Messages Box */}
-      <div className="bg-[#0A0F24] border border-[#1E2A47] backdrop-blur-md p-4 rounded-2xl shadow-lg text-white">
-        <div className="max-h-64 overflow-y-auto space-y-2 scrollbar-transparent">
-          {messages.map((msg) => (
-            <div
-              key={msg.id}
-              className={`${msg.sender === "user" ? "ml-auto" : ""}`}
-              style={{ maxWidth: "75%", width: "fit-content" }}
-            >
-              {/* Sender Name and Time */}
-              <div
-                className={`text-xs text-[#A6E1FA] mb-1 ${msg.sender === "user" ? "text-right" : "text-left"}`}
-              >
-                {msg.sender === "user" ? "You" : "Chatbot"} · {msg.time}
-              </div>
-              {/* Message Text */}
-              <div
-                className={`p-3 rounded-lg text-sm transition-all duration-300 ${
-                  msg.sender === "user"
-                    ? "bg-gradient-to-r from-[#2563EB] to-[#1E40AF] text-white shadow-lg"
-                    : "bg-gradient-to-r from-[#1E2A47] to-[#0A0F24] text-[#A6E1FA] shadow-lg"
-                }`}
-              >
-                {msg.text}
+    <div className="max-w-xl mx-auto mt-4">
+      <div className="bg-[#0A0F24] border border-[#1E2A47] p-4 rounded-2xl text-white max-h-64 overflow-y-auto scrollbar-transparent">
+        {messages.map(msg => {
+          const isUser = msg.sender === 'user';
+          const label = isUser ? 'You' : 'StudyBuddy';
+          const bubbleClass = isUser
+            ? 'bg-gradient-to-r from-[#2563EB] to-[#1E40AF] text-white'
+            : 'bg-gradient-to-r from-[#1E2A47] to-[#0A0F24] text-[#A6E1FA]';
+
+          return (
+            <div key={msg.id} className={`flex ${isUser ? 'justify-end' : 'justify-start'} mb-2`}>
+              <div className={`max-w-full p-3 rounded-lg text-sm ${bubbleClass}`}>
+                <div className="text-xs mb-1 text-[#A6E1FA]">{label} · {msg.time}</div>
+                <ReactMarkdown 
+                  remarkPlugins={[remarkGfm, remarkMath]}
+                  rehypePlugins={[rehypeRaw, rehypeKatex, rehypeSanitize]}
+                >
+                  {msg.text}
+                </ReactMarkdown>
               </div>
             </div>
-          ))}
-          {/* Empty div to auto-scroll to the latest message */}
-          <div ref={messagesEndRef} />
-        </div>
+          );
+        })}
+
+        {isTyping && (
+          <div className="flex justify-start mb-2">
+            <div className="max-w-3/4 p-3 rounded-lg bg-gradient-to-r from-[#1E2A47] to-[#0A0F24] text-[#A6E1FA] text-sm flex items-center">
+              <span className="h-2 w-2 bg-white rounded-full animate-ping mr-1" />
+              <span className="h-2 w-2 bg-white rounded-full animate-ping animation-delay-200ms mr-1" />
+              <span className="h-2 w-2 bg-white rounded-full animate-ping animation-delay-400ms" />
+            </div>
+          </div>
+        )}
+
+        <div ref={messagesEndRef} />
       </div>
 
-      {/* Chat Input and Send Icon */}
-      <div className="flex mt-4 rounded-lg bg-[#0A0F24] p-1">
+      <div className="flex mt-4 bg-[#0A0F24] p-1 rounded-lg">
         <input
           type="text"
-          className="flex-1 p-2 bg-transparent text-white outline-none text-base placeholder-[#A6E1FA] border-none transition-all duration-300"
+          className="flex-1 p-2 bg-transparent text-white outline-none placeholder-[#A6E1FA]"
           placeholder="Type a message..."
           value={input}
-          onChange={(e) => setInput(e.target.value)}
-          onKeyPress={(e) => e.key === "Enter" && sendMessage()}
+          onChange={e => setInput(e.target.value)}
+          onKeyPress={e => e.key === 'Enter' && sendMessage()}
         />
-        <button
-          onClick={sendMessage}
-          className="p-2 bg-transparent text-[#2563EB] hover:text-[#1E40AF] transition-all duration-300 hover:scale-110 flex items-center justify-center"
-        >
+        <button onClick={sendMessage} className="p-2 text-[#2563EB] hover:text-[#1E40AF]">
           <Send className="w-5 h-5" />
         </button>
       </div>
-
-      {/* Custom Scrollbar Styles */}
-      <style>
-        {`
-          .scrollbar-transparent::-webkit-scrollbar {
-            width: 8px;
-          }
-          .scrollbar-transparent::-webkit-scrollbar-track {
-            background: transparent;
-          }
-          .scrollbar-transparent::-webkit-scrollbar-thumb {
-            background: rgba(166, 225, 250, 0.3);
-            border-radius: 4px;
-          }
-          .scrollbar-transparent::-webkit-scrollbar-thumb:hover {
-            background: rgba(166, 225, 250, 0.5);
-          }
-        `}
-      </style>
     </div>
   );
 };

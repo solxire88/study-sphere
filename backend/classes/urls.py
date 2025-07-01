@@ -13,4 +13,7 @@ urlpatterns = [
     path('student/classes/accepted/', StudentAcceptedClassListView.as_view(), name='student-accepted-classes'),
     path('student/enrollments/pending/', StudentPendingEnrollmentListView.as_view(), name='student-enrollment-pending'),
     path('student/enrollments/accepted/', StudentAcceptedEnrollmentListView.as_view(), name='student-enrollment-accepted'),
+    path('educator/classes/', EducatorClassListView.as_view(), name='educator-class-list'),
+    path('classes/<int:class_id>/enrollments/', ClassEnrollmentListView.as_view(), name='class-enrollment-list'),
+    path('class/my-enrollments/', MyEnrollmentsView.as_view(), name='my-enrollments'),
 ]
