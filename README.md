@@ -109,6 +109,19 @@ Follow these instructions to set up the project locally.
    ```bash
    npm run dev
    ```
+## Screenshots
+
+### Login
+![Login](https://tntaizamsozuvsaecpsl.supabase.co/storage/v1/object/public/portfolio/images/Login.png)
+
+### Explore Classes
+![Explore Classes](https://tntaizamsozuvsaecpsl.supabase.co/storage/v1/object/public/portfolio/images/Explore%20Classes2.png)
+
+### Educator Dashboard
+![Educator Dashboard](https://tntaizamsozuvsaecpsl.supabase.co/storage/v1/object/public/portfolio/images/Educator%20Dashboard2.png)
+
+### Class Details
+![Class Details](https://tntaizamsozuvsaecpsl.supabase.co/storage/v1/object/public/portfolio/images/Class%20Details2.png)
 
 ## Git Workflow Guidelines
 
