@@ -5,7 +5,6 @@ A full-stack web application with a Django (backend) and React (frontend) archit
 ## Table of Contents
 
 - [Project Overview](#project-overview)
-- [Team Members](#team-members)
 - [Project Structure](#project-structure)
 - [Getting Started](#getting-started)
   - [Prerequisites](#prerequisites)
@@ -19,16 +18,6 @@ A full-stack web application with a Django (backend) and React (frontend) archit
 ## Project Overview
 
 This project is a collaborative effort to build a modern web application using a Django backend and a React frontend. The project is designed to allow team members to work on different components independently while maintaining a smooth integration process.
-
-## Team Members
-
-- **Chementel Naoufel** – Project Lead, Full-Stack Developer
-- **Khoualed Douaa** – Backend Developer
-- **Metloug Kosey** – Backend Developer
-- **Saja Sefiane** – Frontend Developer
-- **Kherarba Badis** – Frontend Developer
-- **Tazouta Balkis** – Frontend Developer
-- **Mansoura Manel** – UI/UX/Frontend Developer
 
 ## Project Structure
 
@@ -98,7 +87,7 @@ Follow these instructions to set up the project locally.
 6. **Start the Django development server:**
 
    ```bash
-   python manage.py runserver
+   daphne asgi.backend:application
    ```
 
 ### Frontend Setup (React)
